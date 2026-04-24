@@ -25,7 +25,7 @@ import androidx.navigation.toRoute
 
 /** Entry point composable. Sets up theme, navigation, and the bottom tab bar. */
 @Composable
-fun App() {
+fun App(database: CarManDatabase) {
     AppTheme {
         val navController = rememberNavController()
         val backStackEntry by navController.currentBackStackEntryAsState()
