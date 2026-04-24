@@ -1,4 +1,4 @@
-package edu.moravian.csci395.carman
+package edu.moravian.csci395.carman.screens
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,14 +8,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import kotlinx.serialization.Serializable
 
-/** Route for the Home / Upcoming dashboard tab. */
+/** Route for scheduling a new maintenance event on a specific car. */
 @Serializable
-object Home
+data class AddEvent(val carId: Long)
 
-/** Dashboard listing upcoming maintenance events across all cars. */
+/** Form for adding a mileage-based maintenance event (oil change, tire, brake, custom). */
 @Composable
-fun HomeScreen() {
+fun AddEventScreen(
+    carId: Long,
+    onSaved: () -> Unit,
+    onCancel: () -> Unit,
+) {
     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text("Home / Upcoming")
+        Text("Add Event for car $carId")
     }
 }

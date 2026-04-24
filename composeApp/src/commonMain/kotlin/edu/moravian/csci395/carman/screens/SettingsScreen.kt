@@ -1,4 +1,4 @@
-package edu.moravian.csci395.carman
+package edu.moravian.csci395.carman.screens
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,14 +8,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import kotlinx.serialization.Serializable
 
-/** Route for the Mechanics map tab. */
+/** Route for the Settings tab. */
 @Serializable
-object MechanicsMap
+object Settings
 
-/** Map showing pins for all mechanics the user has recorded. */
+/** App preferences: units, theme, language, notification lead time, etc. */
 @Composable
-fun MapScreen() {
+fun SettingsScreen() {
     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text("Mechanics Map")
+        Text("Settings")
     }
 }

@@ -22,6 +22,24 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import edu.moravian.csci395.carman.data.CarManDatabase
+import edu.moravian.csci395.carman.theme.AppTheme
+import edu.moravian.csci395.carman.screens.AddCar
+import edu.moravian.csci395.carman.screens.AddCarScreen
+import edu.moravian.csci395.carman.screens.AddEvent
+import edu.moravian.csci395.carman.screens.AddEventScreen
+import edu.moravian.csci395.carman.screens.CarDetail
+import edu.moravian.csci395.carman.screens.CarDetailScreen
+import edu.moravian.csci395.carman.screens.Cars
+import edu.moravian.csci395.carman.screens.CarsScreen
+import edu.moravian.csci395.carman.screens.Home
+import edu.moravian.csci395.carman.screens.HomeScreen
+import edu.moravian.csci395.carman.screens.LogMileage
+import edu.moravian.csci395.carman.screens.LogMileageScreen
+import edu.moravian.csci395.carman.screens.MapScreen
+import edu.moravian.csci395.carman.screens.MechanicsMap
+import edu.moravian.csci395.carman.screens.Settings
+import edu.moravian.csci395.carman.screens.SettingsScreen
 
 /** Entry point composable. Sets up theme, navigation, and the bottom tab bar. */
 @Composable

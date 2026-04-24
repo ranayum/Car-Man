@@ -2,6 +2,7 @@ package edu.moravian.csci395.carman
 
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import edu.moravian.csci395.carman.data.CarManDatabase
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.Foundation.NSDocumentDirectory
 import platform.Foundation.NSFileManager

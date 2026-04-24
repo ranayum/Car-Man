@@ -1,4 +1,4 @@
-package edu.moravian.csci395.carman
+package edu.moravian.csci395.carman.screens
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,14 +8,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import kotlinx.serialization.Serializable
 
-/** Route for the Settings tab. */
+/** Route for a single car's detail view. */
 @Serializable
-object Settings
+data class CarDetail(val carId: Long)
 
-/** App preferences: units, theme, language, notification lead time, etc. */
+/** Details of one car: photo, mileage, scheduled events, history. */
 @Composable
-fun SettingsScreen() {
+fun CarDetailScreen(
+    carId: Long,
+    onLogMileageClick: (Long) -> Unit,
+    onAddEventClick: (Long) -> Unit,
+) {
     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text("Settings")
+        Text("Car Detail (id = $carId)")
     }
 }

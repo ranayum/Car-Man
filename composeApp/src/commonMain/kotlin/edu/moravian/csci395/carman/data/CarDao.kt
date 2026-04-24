@@ -1,4 +1,4 @@
-package edu.moravian.csci395.carman
+package edu.moravian.csci395.carman.data
 
 import androidx.room.Dao
 import androidx.room.Delete

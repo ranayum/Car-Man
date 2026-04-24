@@ -1,4 +1,4 @@
-package edu.moravian.csci395.carman
+package edu.moravian.csci395.carman.screens
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

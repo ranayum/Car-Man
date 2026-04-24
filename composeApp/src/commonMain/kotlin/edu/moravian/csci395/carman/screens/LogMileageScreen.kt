@@ -1,4 +1,4 @@
-package edu.moravian.csci395.carman
+package edu.moravian.csci395.carman.screens
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,18 +8,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import kotlinx.serialization.Serializable
 
-/** Route for a single car's detail view. */
+/** Route for updating a car's current mileage. */
 @Serializable
-data class CarDetail(val carId: Long)
+data class LogMileage(val carId: Long)
 
-/** Details of one car: photo, mileage, scheduled events, history. */
+/** Simple form to update current mileage for a car. */
 @Composable
-fun CarDetailScreen(
+fun LogMileageScreen(
     carId: Long,
-    onLogMileageClick: (Long) -> Unit,
-    onAddEventClick: (Long) -> Unit,
+    onSaved: () -> Unit,
+    onCancel: () -> Unit,
 ) {
     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text("Car Detail (id = $carId)")
+        Text("Log Mileage for car $carId")
     }
 }

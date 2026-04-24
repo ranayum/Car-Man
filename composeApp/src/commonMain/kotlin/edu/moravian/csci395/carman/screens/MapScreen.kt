@@ -1,4 +1,4 @@
-package edu.moravian.csci395.carman
+package edu.moravian.csci395.carman.screens
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,18 +8,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import kotlinx.serialization.Serializable
 
-/** Route for scheduling a new maintenance event on a specific car. */
+/** Route for the Mechanics map tab. */
 @Serializable
-data class AddEvent(val carId: Long)
+object MechanicsMap
 
-/** Form for adding a mileage-based maintenance event (oil change, tire, brake, custom). */
+/** Map showing pins for all mechanics the user has recorded. */
 @Composable
-fun AddEventScreen(
-    carId: Long,
-    onSaved: () -> Unit,
-    onCancel: () -> Unit,
-) {
+fun MapScreen() {
     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text("Add Event for car $carId")
+        Text("Mechanics Map")
     }
 }
