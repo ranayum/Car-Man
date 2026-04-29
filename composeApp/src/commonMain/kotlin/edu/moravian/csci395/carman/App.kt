@@ -85,6 +85,7 @@ fun App(database: CarManDatabase) {
                 composable<Home> { HomeScreen() }
                 composable<Cars> {
                     CarsScreen(
+                        carDao = database.carDao(),
                         onCarClick = { carId -> navController.navigate(CarDetail(carId)) },
                         onAddCarClick = { navController.navigate(AddCar) },
                     )
