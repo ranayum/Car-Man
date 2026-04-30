@@ -103,6 +103,7 @@ fun App(database: CarManDatabase) {
                 }
                 composable<AddCar> {
                     AddCarScreen(
+                        carDao = database.carDao(),
                         onSaved = { navController.popBackStack() },
                         onCancel = { navController.popBackStack() },
                     )
