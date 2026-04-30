@@ -97,6 +97,9 @@ fun App(database: CarManDatabase) {
                     val route = entry.toRoute<CarDetail>()
                     CarDetailScreen(
                         carId = route.carId,
+                        carDao = database.carDao(),
+                        eventDao = database.maintenanceEventDao(),
+                        onBack = { navController.popBackStack() },
                         onLogMileageClick = { id -> navController.navigate(LogMileage(id)) },
                         onAddEventClick = { id -> navController.navigate(AddEvent(id)) },
                     )
@@ -120,6 +123,7 @@ fun App(database: CarManDatabase) {
                     val route = entry.toRoute<LogMileage>()
                     LogMileageScreen(
                         carId = route.carId,
+                        carDao = database.carDao(),
                         onSaved = { navController.popBackStack() },
                         onCancel = { navController.popBackStack() },
                     )
