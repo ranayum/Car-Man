@@ -28,9 +28,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import carman.composeapp.generated.resources.Res
+import carman.composeapp.generated.resources.car_mileage
+import carman.composeapp.generated.resources.car_plate
+import carman.composeapp.generated.resources.cars_add_cd
+import carman.composeapp.generated.resources.cars_empty
+import carman.composeapp.generated.resources.cars_title
 import edu.moravian.csci395.carman.data.CarDao
 import edu.moravian.csci395.carman.data.CarEntity
 import kotlinx.serialization.Serializable
+import org.jetbrains.compose.resources.stringResource
 
 /** Route for the My Cars list tab. */
 @Serializable
@@ -49,10 +56,10 @@ fun CarsScreen(
     val cars by vm.cars.collectAsState()
 
     Scaffold(
-        topBar = { TopAppBar(title = { Text("My Cars") }) },
+        topBar = { TopAppBar(title = { Text(stringResource(Res.string.cars_title)) }) },
         floatingActionButton = {
             FloatingActionButton(onClick = onAddCarClick) {
-                Icon(Icons.Default.Add, contentDescription = "Add car")
+                Icon(Icons.Default.Add, contentDescription = stringResource(Res.string.cars_add_cd))
             }
         },
     ) { padding ->
@@ -62,7 +69,7 @@ fun CarsScreen(
                 contentAlignment = Alignment.Center,
             ) {
                 Text(
-                    text = "No cars yet — tap + to add one.",
+                    text = stringResource(Res.string.cars_empty),
                     style = MaterialTheme.typography.bodyLarge,
                 )
             }
@@ -95,10 +102,16 @@ private fun CarRow(car: CarEntity, onClick: () -> Unit) {
                 fontWeight = FontWeight.SemiBold,
             )
             car.licensePlate?.let { plate ->
-                Text(plate, style = MaterialTheme.typography.bodySmall)
+                Text(
+                    text = stringResource(Res.string.car_plate, plate),
+                    style = MaterialTheme.typography.bodySmall,
+                )
             }
             car.currentMileage?.let { miles ->
-                Text("$miles mi", style = MaterialTheme.typography.bodyMedium)
+                Text(
+                    text = stringResource(Res.string.car_mileage, miles),
+                    style = MaterialTheme.typography.bodyMedium,
+                )
             }
         }
     }

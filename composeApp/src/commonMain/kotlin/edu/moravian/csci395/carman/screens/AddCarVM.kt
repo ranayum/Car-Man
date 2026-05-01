@@ -55,8 +55,8 @@ class AddCarVM : ViewModel() {
     /** True when the required fields (make, model, year) are filled with valid values. */
     fun canSave(): Boolean {
         return _make.value.isNotBlank() &&
-                _model.value.isNotBlank() &&
-                _year.value.toIntOrNull() != null
+            _model.value.isNotBlank() &&
+            _year.value.toIntOrNull() != null
     }
 
     /**

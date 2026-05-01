@@ -27,8 +27,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import carman.composeapp.generated.resources.Res
+import carman.composeapp.generated.resources.action_back_cd
+import carman.composeapp.generated.resources.action_cancel
+import carman.composeapp.generated.resources.action_save
+import carman.composeapp.generated.resources.action_saving
+import carman.composeapp.generated.resources.add_car_color
+import carman.composeapp.generated.resources.add_car_license
+import carman.composeapp.generated.resources.add_car_make
+import carman.composeapp.generated.resources.add_car_make_placeholder
+import carman.composeapp.generated.resources.add_car_mileage
+import carman.composeapp.generated.resources.add_car_model
+import carman.composeapp.generated.resources.add_car_model_placeholder
+import carman.composeapp.generated.resources.add_car_title
+import carman.composeapp.generated.resources.add_car_weekly_miles
+import carman.composeapp.generated.resources.add_car_year
 import edu.moravian.csci395.carman.data.CarDao
 import kotlinx.serialization.Serializable
+import org.jetbrains.compose.resources.stringResource
 
 /** Route for adding a new car. */
 @Serializable
@@ -57,10 +73,13 @@ fun AddCarScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Add Car") },
+                title = { Text(stringResource(Res.string.add_car_title)) },
                 navigationIcon = {
                     IconButton(onClick = onCancel) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(
+                            Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = stringResource(Res.string.action_back_cd),
+                        )
                     }
                 },
             )
@@ -77,24 +96,23 @@ fun AddCarScreen(
             OutlinedTextField(
                 value = make,
                 onValueChange = vm::setMake,
-                label = { Text("Make *") },
-                placeholder = { Text("Toyota") },
+                label = { Text(stringResource(Res.string.add_car_make)) },
+                placeholder = { Text(stringResource(Res.string.add_car_make_placeholder)) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
             )
             OutlinedTextField(
                 value = model,
                 onValueChange = vm::setModel,
-                label = { Text("Model *") },
-                placeholder = { Text("Corolla") },
+                label = { Text(stringResource(Res.string.add_car_model)) },
+                placeholder = { Text(stringResource(Res.string.add_car_model_placeholder)) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
             )
             OutlinedTextField(
                 value = year,
                 onValueChange = vm::setYear,
-                label = { Text("Year *") },
-                placeholder = { Text("2018") },
+                label = { Text(stringResource(Res.string.add_car_year)) },
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 modifier = Modifier.fillMaxWidth(),
@@ -102,22 +120,21 @@ fun AddCarScreen(
             OutlinedTextField(
                 value = licensePlate,
                 onValueChange = vm::setLicensePlate,
-                label = { Text("License plate") },
+                label = { Text(stringResource(Res.string.add_car_license)) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
             )
             OutlinedTextField(
                 value = color,
                 onValueChange = vm::setColor,
-                label = { Text("Color") },
+                label = { Text(stringResource(Res.string.add_car_color)) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
             )
             OutlinedTextField(
                 value = currentMileage,
                 onValueChange = vm::setCurrentMileage,
-                label = { Text("Current mileage") },
-                placeholder = { Text("e.g. 32000") },
+                label = { Text(stringResource(Res.string.add_car_mileage)) },
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 modifier = Modifier.fillMaxWidth(),
@@ -125,27 +142,25 @@ fun AddCarScreen(
             OutlinedTextField(
                 value = weeklyAverageMiles,
                 onValueChange = vm::setWeeklyAverageMiles,
-                label = { Text("Weekly average miles") },
-                placeholder = { Text("e.g. 200") },
+                label = { Text(stringResource(Res.string.add_car_weekly_miles)) },
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 modifier = Modifier.fillMaxWidth(),
             )
 
-            // Save / Cancel buttons
             Button(
                 onClick = { vm.save(onSaved) },
                 enabled = vm.canSave() && !isSaving,
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                Text(if (isSaving) "Saving..." else "Save")
+                Text(stringResource(if (isSaving) Res.string.action_saving else Res.string.action_save))
             }
             OutlinedButton(
                 onClick = onCancel,
                 enabled = !isSaving,
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                Text("Cancel")
+                Text(stringResource(Res.string.action_cancel))
             }
         }
     }

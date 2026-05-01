@@ -10,35 +10,38 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import edu.moravian.csci395.carman.data.getCarManSettings
 import edu.moravian.csci395.carman.data.getRoomDatabase
 import java.util.concurrent.TimeUnit
 
-/** Android entry point. Builds the Room database and hands it to the Compose app. */
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
-        // Request notification permission for Android 13+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            val launcher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { _ -> }
+            val launcher = registerForActivityResult(
+                ActivityResultContracts.RequestPermission()
+            ) { _ -> }
             launcher.launch(Manifest.permission.POST_NOTIFICATIONS)
         }
 
-        scheduleMaintenanceCheck()
+        scheduleMileageReminder()
+
+        val database = getRoomDatabase(getDatabaseBuilder(this))
+        val settings = getCarManSettings(createDataStore(this))
 
         setContent {
-            App(getRoomDatabase(getDatabaseBuilder(this)))
+            App(database = database, settings = settings)
         }
     }
 
-    private fun scheduleMaintenanceCheck() {
-        val workRequest = PeriodicWorkRequestBuilder<MaintenanceWorker>(1, TimeUnit.DAYS)
-            .build()
+    private fun scheduleMileageReminder() {
+        val workRequest = PeriodicWorkRequestBuilder<MaintenanceWorker>(7, TimeUnit.DAYS).build()
         WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork(
-            "MaintenanceCheck",
+            "MileageReminder",
             ExistingPeriodicWorkPolicy.KEEP,
-            workRequest
+            workRequest,
         )
     }
 }

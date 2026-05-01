@@ -26,8 +26,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import carman.composeapp.generated.resources.Res
+import carman.composeapp.generated.resources.action_back_cd
+import carman.composeapp.generated.resources.action_cancel
+import carman.composeapp.generated.resources.action_save
+import carman.composeapp.generated.resources.action_saving
+import carman.composeapp.generated.resources.log_mileage_current
+import carman.composeapp.generated.resources.log_mileage_field
+import carman.composeapp.generated.resources.log_mileage_no_record
+import carman.composeapp.generated.resources.log_mileage_title
 import edu.moravian.csci395.carman.data.CarDao
 import kotlinx.serialization.Serializable
+import org.jetbrains.compose.resources.stringResource
 
 /** Route for updating a car's current mileage. */
 @Serializable
@@ -52,10 +62,13 @@ fun LogMileageScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Log Mileage") },
+                title = { Text(stringResource(Res.string.log_mileage_title)) },
                 navigationIcon = {
                     IconButton(onClick = onCancel) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(
+                            Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = stringResource(Res.string.action_back_cd),
+                        )
                     }
                 },
             )
@@ -74,8 +87,9 @@ fun LogMileageScreen(
                     style = MaterialTheme.typography.titleMedium,
                 )
                 Text(
-                    text = it.currentMileage?.let { mi -> "Current: $mi mi" }
-                        ?: "No mileage on record",
+                    text = it.currentMileage
+                        ?.let { mi -> stringResource(Res.string.log_mileage_current, mi) }
+                        ?: stringResource(Res.string.log_mileage_no_record),
                     style = MaterialTheme.typography.bodyMedium,
                 )
             }
@@ -83,8 +97,7 @@ fun LogMileageScreen(
             OutlinedTextField(
                 value = newMileage,
                 onValueChange = vm::setNewMileage,
-                label = { Text("New mileage") },
-                placeholder = { Text("e.g. 32500") },
+                label = { Text(stringResource(Res.string.log_mileage_field)) },
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 modifier = Modifier.fillMaxWidth(),
@@ -95,14 +108,14 @@ fun LogMileageScreen(
                 enabled = vm.canSave() && !isSaving,
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                Text(if (isSaving) "Saving..." else "Save")
+                Text(stringResource(if (isSaving) Res.string.action_saving else Res.string.action_save))
             }
             OutlinedButton(
                 onClick = onCancel,
                 enabled = !isSaving,
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                Text("Cancel")
+                Text(stringResource(Res.string.action_cancel))
             }
         }
     }

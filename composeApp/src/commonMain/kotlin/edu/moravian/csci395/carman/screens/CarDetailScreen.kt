@@ -1,6 +1,5 @@
 package edu.moravian.csci395.carman.screens
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,6 +14,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -30,13 +30,29 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import carman.composeapp.generated.resources.Res
+import carman.composeapp.generated.resources.car_color
+import carman.composeapp.generated.resources.car_detail_add_event_cd
+import carman.composeapp.generated.resources.car_detail_back_cd
+import carman.composeapp.generated.resources.car_detail_current_mileage
+import carman.composeapp.generated.resources.car_detail_events_empty
+import carman.composeapp.generated.resources.car_detail_interval
+import carman.composeapp.generated.resources.car_detail_loading
+import carman.composeapp.generated.resources.car_detail_log_mileage
+import carman.composeapp.generated.resources.car_detail_maintenance
+import carman.composeapp.generated.resources.car_detail_next_due
+import carman.composeapp.generated.resources.car_detail_title_fallback
+import carman.composeapp.generated.resources.car_mileage_not_set
+import carman.composeapp.generated.resources.car_plate
 import edu.moravian.csci395.carman.data.CarDao
 import edu.moravian.csci395.carman.data.MaintenanceEventDao
 import edu.moravian.csci395.carman.data.MaintenanceEventEntity
 import kotlinx.serialization.Serializable
+import org.jetbrains.compose.resources.stringResource
 
 /** Route for a single car's detail view. */
 @Serializable
@@ -52,7 +68,6 @@ fun CarDetailScreen(
     onBack: () -> Unit,
     onLogMileageClick: (Long) -> Unit,
     onAddEventClick: (Long) -> Unit,
-    onEventClick: (Long) -> Unit,
     vm: CarDetailVM = viewModel(),
 ) {
     LaunchedEffect(carId, carDao, eventDao) {
@@ -64,17 +79,28 @@ fun CarDetailScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(car?.let { "${it.year} ${it.make} ${it.model}" } ?: "Car") },
+                title = {
+                    Text(
+                        car?.let { "${it.year} ${it.make} ${it.model}" }
+                            ?: stringResource(Res.string.car_detail_title_fallback)
+                    )
+                },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(
+                            Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = stringResource(Res.string.car_detail_back_cd),
+                        )
                     }
                 },
             )
         },
         floatingActionButton = {
             FloatingActionButton(onClick = { onAddEventClick(carId) }) {
-                Icon(Icons.Default.Add, contentDescription = "Add maintenance event")
+                Icon(
+                    Icons.Default.Add,
+                    contentDescription = stringResource(Res.string.car_detail_add_event_cd),
+                )
             }
         },
     ) { padding ->
@@ -84,7 +110,7 @@ fun CarDetailScreen(
                 Modifier.fillMaxSize().padding(padding),
                 contentAlignment = Alignment.Center,
             ) {
-                Text("Loading...")
+                Text(stringResource(Res.string.car_detail_loading))
             }
         } else {
             LazyColumn(
@@ -94,17 +120,17 @@ fun CarDetailScreen(
             ) {
                 item { CarSummaryCard(currentCar.licensePlate, currentCar.color) }
 
-                item {
-                    MileageCard(
+                items(events, key = { it.id }) { event ->
+                    EventRow(
+                        event = event,
                         currentMileage = currentCar.currentMileage,
-                        weeklyAverageMiles = currentCar.weeklyAverageMiles,
-                        onLogMileage = { onLogMileageClick(carId) },
+                        onMarkDone = { vm.completeEvent(event) },
                     )
                 }
 
                 item {
                     Text(
-                        text = "Maintenance",
+                        text = stringResource(Res.string.car_detail_maintenance),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.SemiBold,
                         modifier = Modifier.padding(top = 8.dp),
@@ -114,7 +140,7 @@ fun CarDetailScreen(
                 if (events.isEmpty()) {
                     item {
                         Text(
-                            text = "No events scheduled. Tap + to add one.",
+                            text = stringResource(Res.string.car_detail_events_empty),
                             style = MaterialTheme.typography.bodyMedium,
                         )
                     }
@@ -122,9 +148,8 @@ fun CarDetailScreen(
                     items(events, key = { it.id }) { event ->
                         EventRow(
                             event = event,
-                            onClick = { onEventClick(event.id) },
-                            onComplete = { vm.completeEvent(event) },
-                            canComplete = currentCar.currentMileage != null
+                            currentMileage = currentCar.currentMileage,
+                            onMarkDone = { vm.completeEvent(event) },
                         )
                     }
                 }
@@ -138,8 +163,18 @@ private fun CarSummaryCard(licensePlate: String?, color: String?) {
     if (licensePlate == null && color == null) return
     Card(modifier = Modifier.fillMaxWidth()) {
         Column(Modifier.padding(16.dp)) {
-            licensePlate?.let { Text("Plate: $it", style = MaterialTheme.typography.bodyMedium) }
-            color?.let { Text("Color: $it", style = MaterialTheme.typography.bodyMedium) }
+            licensePlate?.let {
+                Text(
+                    text = stringResource(Res.string.car_plate, it),
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+            }
+            color?.let {
+                Text(
+                    text = stringResource(Res.string.car_color, it),
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+            }
         }
     }
 }
@@ -153,7 +188,9 @@ private fun MileageCard(
     Card(modifier = Modifier.fillMaxWidth()) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Text(
-                text = currentMileage?.let { "$it mi" } ?: "Mileage not set",
+                text = currentMileage
+                    ?.let { stringResource(Res.string.car_detail_current_mileage, it) }
+                    ?: stringResource(Res.string.car_mileage_not_set),
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.SemiBold,
             )
@@ -161,7 +198,7 @@ private fun MileageCard(
                 Text("≈ $it mi / week", style = MaterialTheme.typography.bodyMedium)
             }
             OutlinedButton(onClick = onLogMileage) {
-                Text("Log mileage")
+                Text(stringResource(Res.string.car_detail_log_mileage))
             }
         }
     }
@@ -170,41 +207,61 @@ private fun MileageCard(
 @Composable
 private fun EventRow(
     event: MaintenanceEventEntity,
-    onClick: () -> Unit,
-    onComplete: () -> Unit,
-    canComplete: Boolean,
+    currentMileage: Int?,
+    onMarkDone: () -> Unit,
 ) {
+    val isOverdue = currentMileage != null &&
+            event.nextDueMileage != null &&
+            currentMileage >= event.nextDueMileage
+
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onClick() }
+        modifier = Modifier.fillMaxWidth(),
+        colors = if (isOverdue)
+            CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer)
+        else
+            CardDefaults.cardColors(),
     ) {
-        Row(
-            modifier = Modifier.padding(16.dp).fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Column(modifier = Modifier.weight(1f)) {
+        Column(Modifier.padding(16.dp)) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
                 Text(
                     text = event.title,
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.SemiBold,
+                    color = if (isOverdue) MaterialTheme.colorScheme.error else Color.Unspecified,
                 )
-                Text(
-                    text = "Every ${event.intervalMiles} mi",
-                    style = MaterialTheme.typography.bodySmall,
-                )
-                event.nextDueMileage?.let { due ->
-                    Text("Next due at $due mi", style = MaterialTheme.typography.bodySmall)
+                if (isOverdue) {
+                    Text(
+                        text = "OVERDUE",
+                        style = MaterialTheme.typography.labelSmall,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.error,
+                    )
                 }
             }
-
-            OutlinedButton(
-                onClick = onComplete,
-                enabled = canComplete,
-                contentPadding = PaddingValues(horizontal = 12.dp, vertical = 0.dp)
+            Text(
+                text = stringResource(Res.string.car_detail_interval, event.intervalMiles),
+                style = MaterialTheme.typography.bodySmall,
+            )
+            event.nextDueMileage?.let { due ->
+                Text(
+                    text = stringResource(Res.string.car_detail_next_due, due),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = if (isOverdue) MaterialTheme.colorScheme.error else Color.Unspecified,
+                )
+            }
+            androidx.compose.material3.TextButton(
+                onClick = onMarkDone,
+                modifier = Modifier.align(Alignment.End),
             ) {
-                Text("Done", style = MaterialTheme.typography.labelMedium)
+                Text(
+                    text = "✓ Mark as Done",
+                    color = if (isOverdue) MaterialTheme.colorScheme.error
+                    else MaterialTheme.colorScheme.primary,
+                )
             }
         }
     }

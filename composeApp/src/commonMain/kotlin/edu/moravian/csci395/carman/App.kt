@@ -22,12 +22,16 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import carman.composeapp.generated.resources.Res
+import carman.composeapp.generated.resources.tab_cars
+import carman.composeapp.generated.resources.tab_home
+import carman.composeapp.generated.resources.tab_map
+import carman.composeapp.generated.resources.tab_settings
 import edu.moravian.csci395.carman.data.CarManDatabase
-import edu.moravian.csci395.carman.theme.AppTheme
+import edu.moravian.csci395.carman.data.CarManSettings
 import edu.moravian.csci395.carman.screens.AddCar
 import edu.moravian.csci395.carman.screens.AddCarScreen
 import edu.moravian.csci395.carman.screens.AddEvent
-import edu.moravian.csci395.carman.screens.EditEvent
 import edu.moravian.csci395.carman.screens.AddEventScreen
 import edu.moravian.csci395.carman.screens.CarDetail
 import edu.moravian.csci395.carman.screens.CarDetailScreen
@@ -41,16 +45,17 @@ import edu.moravian.csci395.carman.screens.MapScreen
 import edu.moravian.csci395.carman.screens.MechanicsMap
 import edu.moravian.csci395.carman.screens.Settings
 import edu.moravian.csci395.carman.screens.SettingsScreen
+import edu.moravian.csci395.carman.theme.AppTheme
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
 
-/** Entry point composable. Sets up theme, navigation, and the bottom tab bar. */
 @Composable
-fun App(database: CarManDatabase) {
+fun App(database: CarManDatabase, settings: CarManSettings) {
     AppTheme {
         val navController = rememberNavController()
         val backStackEntry by navController.currentBackStackEntryAsState()
         val currentDestination: NavDestination? = backStackEntry?.destination
 
-        // Bottom bar visible only on the 4 top-level tabs.
         val isOnTab = TopLevelTabs.any { tab ->
             currentDestination?.hasRoute(tab.route::class) == true
         }
@@ -70,8 +75,10 @@ fun App(database: CarManDatabase) {
                                         restoreState = true
                                     }
                                 },
-                                icon = { Icon(tab.icon, contentDescription = tab.label) },
-                                label = { Text(tab.label) },
+                                icon = {
+                                    Icon(tab.icon, contentDescription = stringResource(tab.labelRes))
+                                },
+                                label = { Text(stringResource(tab.labelRes)) },
                             )
                         }
                     }
@@ -87,7 +94,7 @@ fun App(database: CarManDatabase) {
                     HomeScreen(
                         carDao = database.carDao(),
                         eventDao = database.maintenanceEventDao(),
-                        onEventClick = { id -> navController.navigate(EditEvent(id)) }
+                        onEventClick = { id -> navController.navigate(CarDetail(id)) },
                     )
                 }
                 composable<Cars> {
@@ -98,8 +105,9 @@ fun App(database: CarManDatabase) {
                     )
                 }
                 composable<MechanicsMap> { MapScreen() }
-                composable<Settings> { SettingsScreen() }
-
+                composable<Settings> {
+                    SettingsScreen(settings = settings)
+                }
                 composable<CarDetail> { entry ->
                     val route = entry.toRoute<CarDetail>()
                     CarDetailScreen(
@@ -109,7 +117,6 @@ fun App(database: CarManDatabase) {
                         onBack = { navController.popBackStack() },
                         onLogMileageClick = { id -> navController.navigate(LogMileage(id)) },
                         onAddEventClick = { id -> navController.navigate(AddEvent(id)) },
-                        onEventClick = { id -> navController.navigate(EditEvent(id)) },
                     )
                 }
                 composable<AddCar> {
@@ -129,17 +136,6 @@ fun App(database: CarManDatabase) {
                         onCancel = { navController.popBackStack() },
                     )
                 }
-                composable<EditEvent> { entry ->
-                    val route = entry.toRoute<EditEvent>()
-                    AddEventScreen(
-                        carId = -1, // Not needed for edit
-                        carDao = database.carDao(),
-                        eventDao = database.maintenanceEventDao(),
-                        eventId = route.eventId,
-                        onSaved = { navController.popBackStack() },
-                        onCancel = { navController.popBackStack() },
-                    )
-                }
                 composable<LogMileage> { entry ->
                     val route = entry.toRoute<LogMileage>()
                     LogMileageScreen(
@@ -154,17 +150,15 @@ fun App(database: CarManDatabase) {
     }
 }
 
-/** Definition of one bottom-nav tab. */
 private data class TopLevelTab(
     val route: Any,
-    val label: String,
+    val labelRes: StringResource,
     val icon: ImageVector,
 )
 
-/** The four top-level tabs displayed in the bottom navigation bar. */
 private val TopLevelTabs = listOf(
-    TopLevelTab(Home, "Home", Icons.Default.Home),
-    TopLevelTab(Cars, "Cars", Icons.Default.List),
-    TopLevelTab(MechanicsMap, "Map", Icons.Default.LocationOn),
-    TopLevelTab(Settings, "Settings", Icons.Default.Settings),
+    TopLevelTab(Home, Res.string.tab_home, Icons.Default.Home),
+    TopLevelTab(Cars, Res.string.tab_cars, Icons.Default.List),
+    TopLevelTab(MechanicsMap, Res.string.tab_map, Icons.Default.LocationOn),
+    TopLevelTab(Settings, Res.string.tab_settings, Icons.Default.Settings),
 )
