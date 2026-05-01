@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Bottom nav tabs -->
+    <string name="tab_home">Home</string>
+    <string name="tab_cars">Cars</string>
+    <string name="tab_map">Map</string>
+    <string name="tab_settings">Settings</string>
+
+    <!-- Cars screen -->
+    <string name="cars_title">My Cars</string>
+    <string name="cars_empty">No cars yet — tap + to add one.</string>
+    <string name="cars_add_cd">Add car</string>
+    <string name="car_plate">Plate: %1$s</string>
+    <string name="car_color">Color: %1$s</string>
+    <string name="car_mileage">%1$s mi</string>
+    <string name="car_mileage_not_set">Mileage not set</string>
+
+    <!-- Add Car screen -->
+    <string name="add_car_title">Add Car</string>
+    <string name="add_car_make">Make *</string>
+    <string name="add_car_make_placeholder">Toyota</string>
+    <string name="add_car_model">Model *</string>
+    <string name="add_car_model_placeholder">Rav4</string>
+    <string name="add_car_year">Year *</string>
+    <string name="add_car_license">License plate</string>
+    <string name="add_car_color">Color</string>
+    <string name="add_car_mileage">Current mileage</string>
+    <string name="add_car_weekly_miles">Weekly average miles</string>
+
+    <!-- Car Detail screen -->
+    <string name="car_detail_loading">Loading…</string>
+    <string name="car_detail_title_fallback">Car</string>
+    <string name="car_detail_back_cd">Back</string>
+    <string name="car_detail_add_event_cd">Add maintenance event</string>
+    <string name="car_detail_maintenance">Maintenance</string>
+    <string name="car_detail_events_empty">No events scheduled. Tap + to add one.</string>
+    <string name="car_detail_current_mileage">%1$s mi</string>
+    <string name="car_detail_log_mileage">Log mileage</string>
+    <string name="car_detail_interval">Every %1$s mi</string>
+    <string name="car_detail_next_due">Next due at %1$s mi</string>
+
+    <!-- Log Mileage screen -->
+    <string name="log_mileage_title">Log Mileage</string>
+    <string name="log_mileage_current">Current: %1$s mi</string>
+    <string name="log_mileage_no_record">No mileage on record</string>
+    <string name="log_mileage_field">New mileage</string>
+
+    <!-- Add Event screen -->
+    <string name="add_event_title">Add Event</string>
+
+    <!-- Home screen -->
+    <string name="home_title">Home / Upcoming</string>
+
+    <!-- Map screen -->
+    <string name="map_title">Mechanics Map</string>
+
+    <!-- Settings screen -->
+    <string name="settings_title">Settings</string>
+
+    <!-- Shared / common -->
+    <string name="action_save">Save</string>
+    <string name="action_saving">Saving…</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_back_cd">Back</string>
+</resources>

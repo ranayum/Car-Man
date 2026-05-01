@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Bottom nav tabs -->
+    <string name="tab_home">Startseite</string>
+    <string name="tab_cars">Autos</string>
+    <string name="tab_map">Karte</string>
+    <string name="tab_settings">Einstellungen</string>
+
+    <!-- Cars screen -->
+    <string name="cars_title">Meine Autos</string>
+    <string name="cars_empty">Noch keine Autos — tippe + zum Hinzufügen.</string>
+    <string name="cars_add_cd">Auto hinzufügen</string>
+    <string name="car_plate">Kennzeichen: %1$s</string>
+    <string name="car_color">Farbe: %1$s</string>
+    <string name="car_mileage">%1$s km</string>
+    <string name="car_mileage_not_set">Kilometerstand nicht angegeben</string>
+
+    <!-- Add Car screen -->
+    <string name="add_car_title">Auto hinzufügen</string>
+    <string name="add_car_make">Marke *</string>
+    <string name="add_car_make_placeholder">BMW</string>
+    <string name="add_car_model">Modell *</string>
+    <string name="add_car_model_placeholder">M5</string>
+    <string name="add_car_year">Baujahr *</string>
+    <string name="add_car_license">Kennzeichen</string>
+    <string name="add_car_color">Farbe</string>
+    <string name="add_car_mileage">Aktueller Kilometerstand</string>
+    <string name="add_car_weekly_miles">Wöchentliche Durchschnittsstrecke</string>
+
+    <!-- Car Detail screen -->
+    <string name="car_detail_loading">Wird geladen…</string>
+    <string name="car_detail_title_fallback">Auto</string>
+    <string name="car_detail_back_cd">Zurück</string>
+    <string name="car_detail_add_event_cd">Wartungstermin hinzufügen</string>
+    <string name="car_detail_maintenance">Wartung</string>
+    <string name="car_detail_events_empty">Keine Termine geplant. Tippe + zum Hinzufügen.</string>
+    <string name="car_detail_current_mileage">%1$s km</string>
+    <string name="car_detail_log_mileage">Kilometerstand eintragen</string>
+    <string name="car_detail_interval">Alle %1$s km</string>
+    <string name="car_detail_next_due">Fällig bei %1$s km</string>
+
+    <!-- Log Mileage screen -->
+    <string name="log_mileage_title">Kilometerstand eintragen</string>
+    <string name="log_mileage_current">Aktuell: %1$s km</string>
+    <string name="log_mileage_no_record">Kein Kilometerstand eingetragen</string>
+    <string name="log_mileage_field">Neuer Kilometerstand</string>
+
+    <!-- Add Event screen -->
+    <string name="add_event_title">Termin hinzufügen</string>
+
+    <!-- Home screen -->
+    <string name="home_title">Startseite / Bevorstehend</string>
+
+    <!-- Map screen -->
+    <string name="map_title">Werkstattkarte</string>
+
+    <!-- Settings screen -->
+    <string name="settings_title">Einstellungen</string>
+
+    <!-- Shared / common -->
+    <string name="action_save">Speichern</string>
+    <string name="action_saving">Wird gespeichert…</string>
+    <string name="action_cancel">Abbrechen</string>
+    <string name="action_back_cd">Zurück</string>
+</resources>
