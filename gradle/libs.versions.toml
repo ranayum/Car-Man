@@ -18,6 +18,7 @@ kotlinxSerializationJson = "1.10.0"
 material3 = "1.10.0-alpha05"
 room = "2.8.4"
 sqlite = "2.6.2"
+work = "2.11.0"
 ksp = "2.3.6"
 kmpMaps = "0.9.1"
 maplibreCompose = "0.12.1"
@@ -51,6 +52,7 @@ androidx-sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.r
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 androidx-room-sqlite-wrapper = { module = "androidx.room:room-sqlite-wrapper", version.ref = "room" }
+androidx-work-runtime = { module = "androidx.work:work-runtime-ktx", version.ref = "work" }
 
 androidx-datastore-preferences-core = { module = "androidx.datastore:datastore-preferences-core", version.ref = "datastore" }
 
