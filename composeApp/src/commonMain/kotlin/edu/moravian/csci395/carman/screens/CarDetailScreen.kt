@@ -1,9 +1,11 @@
 package edu.moravian.csci395.carman.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -50,6 +52,7 @@ fun CarDetailScreen(
     onBack: () -> Unit,
     onLogMileageClick: (Long) -> Unit,
     onAddEventClick: (Long) -> Unit,
+    onEventClick: (Long) -> Unit,
     vm: CarDetailVM = viewModel(),
 ) {
     LaunchedEffect(carId, carDao, eventDao) {
@@ -117,7 +120,12 @@ fun CarDetailScreen(
                     }
                 } else {
                     items(events, key = { it.id }) { event ->
-                        EventRow(event)
+                        EventRow(
+                            event = event,
+                            onClick = { onEventClick(event.id) },
+                            onComplete = { vm.completeEvent(event) },
+                            canComplete = currentCar.currentMileage != null
+                        )
                     }
                 }
             }
@@ -160,20 +168,43 @@ private fun MileageCard(
 }
 
 @Composable
-private fun EventRow(event: MaintenanceEventEntity) {
-    Card(modifier = Modifier.fillMaxWidth()) {
-        Column(Modifier.padding(16.dp)) {
-            Text(
-                text = event.title,
-                style = MaterialTheme.typography.titleSmall,
-                fontWeight = FontWeight.SemiBold,
-            )
-            Text(
-                text = "Every ${event.intervalMiles} mi",
-                style = MaterialTheme.typography.bodySmall,
-            )
-            event.nextDueMileage?.let { due ->
-                Text("Next due at $due mi", style = MaterialTheme.typography.bodySmall)
+private fun EventRow(
+    event: MaintenanceEventEntity,
+    onClick: () -> Unit,
+    onComplete: () -> Unit,
+    canComplete: Boolean,
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClick() }
+    ) {
+        Row(
+            modifier = Modifier.padding(16.dp).fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = event.title,
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.SemiBold,
+                )
+                Text(
+                    text = "Every ${event.intervalMiles} mi",
+                    style = MaterialTheme.typography.bodySmall,
+                )
+                event.nextDueMileage?.let { due ->
+                    Text("Next due at $due mi", style = MaterialTheme.typography.bodySmall)
+                }
+            }
+
+            OutlinedButton(
+                onClick = onComplete,
+                enabled = canComplete,
+                contentPadding = PaddingValues(horizontal = 12.dp, vertical = 0.dp)
+            ) {
+                Text("Done", style = MaterialTheme.typography.labelMedium)
             }
         }
     }

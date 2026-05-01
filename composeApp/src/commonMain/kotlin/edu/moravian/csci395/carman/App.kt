@@ -27,6 +27,7 @@ import edu.moravian.csci395.carman.theme.AppTheme
 import edu.moravian.csci395.carman.screens.AddCar
 import edu.moravian.csci395.carman.screens.AddCarScreen
 import edu.moravian.csci395.carman.screens.AddEvent
+import edu.moravian.csci395.carman.screens.EditEvent
 import edu.moravian.csci395.carman.screens.AddEventScreen
 import edu.moravian.csci395.carman.screens.CarDetail
 import edu.moravian.csci395.carman.screens.CarDetailScreen
@@ -82,7 +83,13 @@ fun App(database: CarManDatabase) {
                 startDestination = Home,
                 modifier = Modifier.padding(innerPadding),
             ) {
-                composable<Home> { HomeScreen() }
+                composable<Home> {
+                    HomeScreen(
+                        carDao = database.carDao(),
+                        eventDao = database.maintenanceEventDao(),
+                        onEventClick = { id -> navController.navigate(EditEvent(id)) }
+                    )
+                }
                 composable<Cars> {
                     CarsScreen(
                         carDao = database.carDao(),
@@ -102,6 +109,7 @@ fun App(database: CarManDatabase) {
                         onBack = { navController.popBackStack() },
                         onLogMileageClick = { id -> navController.navigate(LogMileage(id)) },
                         onAddEventClick = { id -> navController.navigate(AddEvent(id)) },
+                        onEventClick = { id -> navController.navigate(EditEvent(id)) },
                     )
                 }
                 composable<AddCar> {
@@ -115,6 +123,19 @@ fun App(database: CarManDatabase) {
                     val route = entry.toRoute<AddEvent>()
                     AddEventScreen(
                         carId = route.carId,
+                        carDao = database.carDao(),
+                        eventDao = database.maintenanceEventDao(),
+                        onSaved = { navController.popBackStack() },
+                        onCancel = { navController.popBackStack() },
+                    )
+                }
+                composable<EditEvent> { entry ->
+                    val route = entry.toRoute<EditEvent>()
+                    AddEventScreen(
+                        carId = -1, // Not needed for edit
+                        carDao = database.carDao(),
+                        eventDao = database.maintenanceEventDao(),
+                        eventId = route.eventId,
                         onSaved = { navController.popBackStack() },
                         onCancel = { navController.popBackStack() },
                     )

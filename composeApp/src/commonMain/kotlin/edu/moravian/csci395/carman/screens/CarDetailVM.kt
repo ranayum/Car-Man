@@ -15,6 +15,8 @@ import kotlinx.coroutines.launch
  * maintenance events from the database for the supplied car id.
  */
 class CarDetailVM : ViewModel() {
+    private var eventDao: MaintenanceEventDao? = null
+    private var carDao: CarDao? = null
     private var setUp = false
 
     private val _car = MutableStateFlow<CarEntity?>(null)
@@ -31,11 +33,32 @@ class CarDetailVM : ViewModel() {
     ) {
         if (setUp) return
         setUp = true
+        this.carDao = carDao
+        this.eventDao = eventDao
+
         viewModelScope.launch {
             carDao.getById(carId).collect { _car.value = it }
         }
         viewModelScope.launch {
             eventDao.getAllForCar(carId).collect { _events.value = it }
+        }
+    }
+
+    /**
+     * Marks an event as completed at the car's current mileage.
+     * Updates lastCompletedMileage and nextDueMileage.
+     */
+    fun completeEvent(event: MaintenanceEventEntity) {
+        val currentCar = _car.value ?: return
+        val currentMileage = currentCar.currentMileage ?: return
+        val dao = eventDao ?: return
+
+        viewModelScope.launch {
+            val updatedEvent = event.copy(
+                lastCompletedMileage = currentMileage,
+                nextDueMileage = currentMileage + event.intervalMiles
+            )
+            dao.update(updatedEvent)
         }
     }
 }
