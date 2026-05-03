@@ -104,7 +104,7 @@ fun App(database: CarManDatabase, settings: CarManSettings) {
                         onAddCarClick = { navController.navigate(AddCar) },
                     )
                 }
-                composable<MechanicsMap> { MapScreen() }
+                composable<MechanicsMap> { MapScreen(database.mechanicDao()) }
                 composable<Settings> {
                     SettingsScreen(settings = settings)
                 }

@@ -57,7 +57,7 @@ fun AddCarScreen(
     carDao: CarDao,
     onSaved: () -> Unit,
     onCancel: () -> Unit,
-    vm: AddCarVM = viewModel(),
+    vm: AddCarVM = viewModel { AddCarVM() },
 ) {
     LaunchedEffect(carDao) { vm.setup(carDao) }
 

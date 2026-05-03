@@ -36,7 +36,7 @@ object Settings
 @Composable
 fun SettingsScreen(
     settings: CarManSettings,
-    vm: SettingsVM = viewModel(),
+    vm: SettingsVM = viewModel { SettingsVM() },
 ) {
     LaunchedEffect(settings) { vm.setup(settings) }
 

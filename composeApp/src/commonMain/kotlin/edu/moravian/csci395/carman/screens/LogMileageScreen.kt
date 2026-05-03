@@ -51,7 +51,7 @@ fun LogMileageScreen(
     carDao: CarDao,
     onSaved: () -> Unit,
     onCancel: () -> Unit,
-    vm: LogMileageVM = viewModel(),
+    vm: LogMileageVM = viewModel { LogMileageVM() },
 ) {
     LaunchedEffect(carId, carDao) { vm.setup(carId, carDao) }
 

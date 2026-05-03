@@ -38,7 +38,7 @@ fun HomeScreen(
     carDao: CarDao,
     eventDao: MaintenanceEventDao,
     onEventClick: (Long) -> Unit,
-    vm: HomeVM = viewModel()
+    vm: HomeVM = viewModel { HomeVM() }
 ) {
     LaunchedEffect(carDao, eventDao) {
         vm.setup(carDao, eventDao)

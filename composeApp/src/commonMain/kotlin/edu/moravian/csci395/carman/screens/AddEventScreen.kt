@@ -59,7 +59,7 @@ fun AddEventScreen(
     onSaved: () -> Unit,
     onCancel: () -> Unit,
     eventId: Long? = null,
-    vm: AddEventVM = viewModel(),
+    vm: AddEventVM = viewModel { AddEventVM() },
 ) {
     LaunchedEffect(carId, carDao, eventDao, eventId) {
         vm.setup(carId, carDao, eventDao, eventId)

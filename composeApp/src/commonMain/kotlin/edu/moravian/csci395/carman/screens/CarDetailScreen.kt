@@ -68,7 +68,7 @@ fun CarDetailScreen(
     onBack: () -> Unit,
     onLogMileageClick: (Long) -> Unit,
     onAddEventClick: (Long) -> Unit,
-    vm: CarDetailVM = viewModel(),
+    vm: CarDetailVM = viewModel { CarDetailVM() },
 ) {
     LaunchedEffect(carId, carDao, eventDao) {
         vm.setup(carId, carDao, eventDao)

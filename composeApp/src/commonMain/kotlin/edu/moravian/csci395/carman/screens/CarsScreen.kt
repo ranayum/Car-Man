@@ -50,7 +50,7 @@ fun CarsScreen(
     carDao: CarDao,
     onCarClick: (Long) -> Unit,
     onAddCarClick: () -> Unit,
-    vm: CarsVM = viewModel(),
+    vm: CarsVM = viewModel { CarsVM() },
 ) {
     LaunchedEffect(carDao) { vm.setup(carDao) }
     val cars by vm.cars.collectAsState()

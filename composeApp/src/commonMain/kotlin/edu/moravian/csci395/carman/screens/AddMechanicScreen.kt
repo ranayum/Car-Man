@@ -41,7 +41,7 @@ fun AddMechanicScreen(
     mechanicDao: MechanicDao,
     onSaved: () -> Unit,
     onCancel: () -> Unit,
-    vm: AddMechanicVM = viewModel()
+    vm: AddMechanicVM = viewModel { AddMechanicVM() }
 ) {
     LaunchedEffect(mechanicDao) {
         vm.setup(mechanicDao)
