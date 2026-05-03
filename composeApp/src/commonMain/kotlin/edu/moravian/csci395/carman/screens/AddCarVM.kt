@@ -36,6 +36,9 @@ class AddCarVM : ViewModel() {
     private val _weeklyAverageMiles = MutableStateFlow("")
     val weeklyAverageMiles: StateFlow<String> = _weeklyAverageMiles
 
+    private val _photoPath = MutableStateFlow<String?>(null)
+    val photoPath: StateFlow<String?> = _photoPath
+
     private val _isSaving = MutableStateFlow(false)
     val isSaving: StateFlow<Boolean> = _isSaving
 
@@ -44,6 +47,7 @@ class AddCarVM : ViewModel() {
         if (this.carDao == null) this.carDao = carDao
     }
 
+    fun setPhotoPath(path: String?) { _photoPath.value = path }
     fun setMake(value: String) { _make.value = value }
     fun setModel(value: String) { _model.value = value }
     fun setYear(value: String) { _year.value = value.filter { it.isDigit() }.take(4) }
@@ -76,6 +80,7 @@ class AddCarVM : ViewModel() {
                 year = _year.value.toInt(),
                 licensePlate = _licensePlate.value.trim().ifBlank { null },
                 color = _color.value.trim().ifBlank { null },
+                photoPath = _photoPath.value,
                 currentMileage = mileage,
                 weeklyAverageMiles = _weeklyAverageMiles.value.toIntOrNull(),
                 mileageUpdatedAt = mileage?.let { now },

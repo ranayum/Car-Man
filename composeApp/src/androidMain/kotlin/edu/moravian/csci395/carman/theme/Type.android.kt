@@ -2,4 +2,4 @@ package edu.moravian.csci395.carman.theme
 
 import androidx.compose.material3.Typography
 
-expect val AppTypography: Typography
+actual val AppTypography: Typography = Typography()

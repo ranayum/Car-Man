@@ -50,16 +50,65 @@
 
     <!-- Home screen -->
     <string name="home_title">Home / Upcoming</string>
+    <string name="home_upcoming_title">Upcoming Maintenance</string>
+    <string name="home_empty_message">No upcoming maintenance events.</string>
+    <string name="home_empty_hint">Add cars and events to see them here.</string>
+    <string name="home_due_at">Due at %1$s mi</string>
 
     <!-- Map screen -->
     <string name="map_title">Mechanics Map</string>
 
-    <!-- Settings screen -->
-    <string name="settings_title">Settings</string>
+    <!-- Add Event screen -->
+    <string name="add_event_title_add">Add Maintenance Event</string>
+    <string name="add_event_title_edit">Edit Event</string>
+    <string name="add_event_delete_cd">Delete</string>
+    <string name="add_event_type_label">Event Type</string>
+    <string name="add_event_type_oil">Oil Change</string>
+    <string name="add_event_type_tires">Tires</string>
+    <string name="add_event_type_brakes">Brakes</string>
+    <string name="add_event_type_custom">Custom</string>
+    <string name="add_event_title_field">Title *</string>
+    <string name="add_event_interval_field">Interval (miles) *</string>
+    <string name="field_notes">Notes</string>
+
+    <!-- Add Mechanic screen -->
+    <string name="add_mechanic_title">Add Mechanic</string>
+    <string name="add_mechanic_name">Shop Name *</string>
+    <string name="add_mechanic_address">Address</string>
+    <string name="add_mechanic_phone">Phone</string>
+    <string name="add_mechanic_lat">Latitude *</string>
+    <string name="add_mechanic_lng">Longitude *</string>
+
+    <!-- Add Car screen - camera -->
+    <string name="add_car_take_photo">Take Photo</string>
+    <string name="add_car_photo_taken">Photo taken ✓</string>
+    <string name="add_car_photo_preview_cd">Car photo preview</string>
+
+    <!-- Car Detail extras -->
+    <string name="car_detail_weekly_avg">≈ %1$s mi / week</string>
+    <string name="car_detail_overdue">OVERDUE</string>
+    <string name="car_detail_mark_done">✓ Mark as Done</string>
 
     <!-- Shared / common -->
     <string name="action_save">Save</string>
     <string name="action_saving">Saving…</string>
     <string name="action_cancel">Cancel</string>
     <string name="action_back_cd">Back</string>
+
+    <string name="settings_title">Settings</string>
+    <string name="settings_section_profile">Profile</string>
+    <string name="settings_owner_name_label">Your name</string>
+    <string name="settings_owner_name_placeholder">e.g. Alex</string>
+    <string name="settings_owner_name_hint">Saved automatically</string>
+    <string name="settings_section_notifications">Notifications</string>
+    <string name="settings_weekly_reminder">Weekly mileage reminder</string>
+    <string name="settings_section_intervals">Default maintenance intervals</string>
+    <string name="settings_oil_miles">Oil change (mi)</string>
+    <string name="settings_tire_miles">Tire check (mi)</string>
+    <string name="settings_brake_miles">Brake check (mi)</string>
+    <string name="settings_section_appearance">Appearance</string>
+    <string name="settings_dark_theme">Dark theme</string>
+    <string name="settings_section_language">Language</string>
+    <string name="settings_lang_english">English</string>
+    <string name="settings_lang_german">Deutsch</string>
 </resources>

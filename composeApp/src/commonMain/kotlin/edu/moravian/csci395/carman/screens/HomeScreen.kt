@@ -19,13 +19,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import carman.composeapp.generated.resources.Res
+import carman.composeapp.generated.resources.home_due_at
+import carman.composeapp.generated.resources.home_empty_hint
+import carman.composeapp.generated.resources.home_empty_message
+import carman.composeapp.generated.resources.home_upcoming_title
 import edu.moravian.csci395.carman.data.CarDao
 import edu.moravian.csci395.carman.data.MaintenanceEventDao
 import kotlinx.serialization.Serializable
+import org.jetbrains.compose.resources.stringResource
 
 /** Route for the Home / Upcoming dashboard tab. */
 @Serializable
@@ -48,17 +55,17 @@ fun HomeScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Upcoming Maintenance") })
+            TopAppBar(title = { Text(stringResource(Res.string.home_upcoming_title)) })
         }
     ) { padding ->
         if (upcomingEvents.isEmpty()) {
             Column(
                 modifier = Modifier.fillMaxSize().padding(padding).padding(16.dp),
                 verticalArrangement = Arrangement.Center,
-                horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text("No upcoming maintenance events.", style = MaterialTheme.typography.bodyLarge)
-                Text("Add cars and events to see them here.", style = MaterialTheme.typography.bodyMedium)
+                Text(stringResource(Res.string.home_empty_message), style = MaterialTheme.typography.bodyLarge)
+                Text(stringResource(Res.string.home_empty_hint), style = MaterialTheme.typography.bodyMedium)
             }
         } else {
             LazyColumn(
@@ -104,7 +111,7 @@ fun UpcomingEventRow(
             }
             event.nextDueMileage?.let { due ->
                 Text(
-                    text = "Due at $due mi",
+                    text = stringResource(Res.string.home_due_at, due),
                     style = MaterialTheme.typography.bodySmall,
                     modifier = Modifier.padding(top = 4.dp)
                 )

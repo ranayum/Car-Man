@@ -28,6 +28,9 @@ class SettingsVM : ViewModel() {
     private val _useDarkTheme = MutableStateFlow(false)
     val useDarkTheme: StateFlow<Boolean> = _useDarkTheme
 
+    private val _language = MutableStateFlow("en")
+    val language: StateFlow<String> = _language
+
     fun setup(settings: CarManSettings) {
         if (this.settings != null) return
         this.settings = settings
@@ -49,9 +52,17 @@ class SettingsVM : ViewModel() {
         viewModelScope.launch {
             settings.useDarkTheme.collect { _useDarkTheme.value = it }
         }
+        viewModelScope.launch {
+            settings.language.collect { _language.value = it }
+        }
     }
 
     fun setOwnerName(name: String) { _ownerName.value = name }
+
+    fun setLanguage(lang: String) {
+        _language.value = lang
+        viewModelScope.launch { settings?.setLanguage(lang) }
+    }
     fun setNotificationsEnabled(v: Boolean) {
         _notificationsEnabled.value = v
         viewModelScope.launch { settings?.setNotificationsEnabled(v) }

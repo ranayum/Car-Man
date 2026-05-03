@@ -4,12 +4,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Camera
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -24,9 +26,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil3.compose.AsyncImage
+import edu.moravian.csci395.carman.rememberCameraLauncher
 import carman.composeapp.generated.resources.Res
 import carman.composeapp.generated.resources.action_back_cd
 import carman.composeapp.generated.resources.action_cancel
@@ -39,6 +44,9 @@ import carman.composeapp.generated.resources.add_car_make_placeholder
 import carman.composeapp.generated.resources.add_car_mileage
 import carman.composeapp.generated.resources.add_car_model
 import carman.composeapp.generated.resources.add_car_model_placeholder
+import carman.composeapp.generated.resources.add_car_photo_preview_cd
+import carman.composeapp.generated.resources.add_car_photo_taken
+import carman.composeapp.generated.resources.add_car_take_photo
 import carman.composeapp.generated.resources.add_car_title
 import carman.composeapp.generated.resources.add_car_weekly_miles
 import carman.composeapp.generated.resources.add_car_year
@@ -69,6 +77,9 @@ fun AddCarScreen(
     val currentMileage by vm.currentMileage.collectAsState()
     val weeklyAverageMiles by vm.weeklyAverageMiles.collectAsState()
     val isSaving by vm.isSaving.collectAsState()
+    val photoPath by vm.photoPath.collectAsState()
+
+    val launchCamera = rememberCameraLauncher { path -> vm.setPhotoPath(path) }
 
     Scaffold(
         topBar = {
@@ -147,6 +158,26 @@ fun AddCarScreen(
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 modifier = Modifier.fillMaxWidth(),
             )
+
+            OutlinedButton(
+                onClick = { launchCamera() },
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Icon(Icons.Default.Camera, contentDescription = null)
+                Text(
+                    text = "  " + if (photoPath != null) stringResource(Res.string.add_car_photo_taken) else stringResource(Res.string.add_car_take_photo),
+                    modifier = Modifier.padding(start = 8.dp),
+                )
+            }
+
+            if (photoPath != null) {
+                AsyncImage(
+                    model = photoPath,
+                    contentDescription = stringResource(Res.string.add_car_photo_preview_cd),
+                    modifier = Modifier.fillMaxWidth().height(200.dp),
+                    contentScale = ContentScale.Crop,
+                )
+            }
 
             Button(
                 onClick = { vm.save(onSaved) },

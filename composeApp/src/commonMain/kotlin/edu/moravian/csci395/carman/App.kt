@@ -48,10 +48,12 @@ import edu.moravian.csci395.carman.screens.SettingsScreen
 import edu.moravian.csci395.carman.theme.AppTheme
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
+import androidx.compose.runtime.collectAsState
 
 @Composable
 fun App(database: CarManDatabase, settings: CarManSettings) {
-    AppTheme {
+    val useDarkTheme by settings.useDarkTheme.collectAsState(initial = false)
+    AppTheme(darkTheme = useDarkTheme) {
         val navController = rememberNavController()
         val backStackEntry by navController.currentBackStackEntryAsState()
         val currentDestination: NavDestination? = backStackEntry?.destination

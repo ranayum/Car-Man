@@ -27,8 +27,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import carman.composeapp.generated.resources.Res
+import carman.composeapp.generated.resources.action_back_cd
+import carman.composeapp.generated.resources.action_cancel
+import carman.composeapp.generated.resources.action_save
+import carman.composeapp.generated.resources.action_saving
+import carman.composeapp.generated.resources.add_mechanic_address
+import carman.composeapp.generated.resources.add_mechanic_lat
+import carman.composeapp.generated.resources.add_mechanic_lng
+import carman.composeapp.generated.resources.add_mechanic_name
+import carman.composeapp.generated.resources.add_mechanic_phone
+import carman.composeapp.generated.resources.add_mechanic_title
+import carman.composeapp.generated.resources.field_notes
 import edu.moravian.csci395.carman.data.MechanicDao
 import kotlinx.serialization.Serializable
+import org.jetbrains.compose.resources.stringResource
 
 /** Route for adding a new mechanic. */
 @Serializable
@@ -58,10 +71,10 @@ fun AddMechanicScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Add Mechanic") },
+                title = { Text(stringResource(Res.string.add_mechanic_title)) },
                 navigationIcon = {
                     IconButton(onClick = onCancel) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(Res.string.action_back_cd))
                     }
                 }
             )
@@ -78,50 +91,45 @@ fun AddMechanicScreen(
             OutlinedTextField(
                 value = name,
                 onValueChange = vm::setName,
-                label = { Text("Shop Name *") },
+                label = { Text(stringResource(Res.string.add_mechanic_name)) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()
             )
-
             OutlinedTextField(
                 value = address,
                 onValueChange = vm::setAddress,
-                label = { Text("Address") },
+                label = { Text(stringResource(Res.string.add_mechanic_address)) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()
             )
-
             OutlinedTextField(
                 value = phone,
                 onValueChange = vm::setPhone,
-                label = { Text("Phone") },
+                label = { Text(stringResource(Res.string.add_mechanic_phone)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()
             )
-
             OutlinedTextField(
                 value = latitude,
                 onValueChange = vm::setLatitude,
-                label = { Text("Latitude *") },
+                label = { Text(stringResource(Res.string.add_mechanic_lat)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()
             )
-
             OutlinedTextField(
                 value = longitude,
                 onValueChange = vm::setLongitude,
-                label = { Text("Longitude *") },
+                label = { Text(stringResource(Res.string.add_mechanic_lng)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()
             )
-
             OutlinedTextField(
                 value = notes,
                 onValueChange = vm::setNotes,
-                label = { Text("Notes") },
+                label = { Text(stringResource(Res.string.field_notes)) },
                 modifier = Modifier.fillMaxWidth(),
                 minLines = 3
             )
@@ -131,15 +139,14 @@ fun AddMechanicScreen(
                 enabled = vm.canSave() && !isSaving,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(if (isSaving) "Saving..." else "Save")
+                Text(stringResource(if (isSaving) Res.string.action_saving else Res.string.action_save))
             }
-
             OutlinedButton(
                 onClick = onCancel,
                 enabled = !isSaving,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Cancel")
+                Text(stringResource(Res.string.action_cancel))
             }
         }
     }

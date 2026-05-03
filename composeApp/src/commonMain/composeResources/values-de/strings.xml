@@ -50,16 +50,65 @@
 
     <!-- Home screen -->
     <string name="home_title">Startseite / Bevorstehend</string>
+    <string name="home_upcoming_title">Bevorstehende Wartung</string>
+    <string name="home_empty_message">Keine bevorstehenden Wartungsereignisse.</string>
+    <string name="home_empty_hint">Füge Autos und Ereignisse hinzu, um sie hier zu sehen.</string>
+    <string name="home_due_at">Fällig bei %1$s km</string>
 
     <!-- Map screen -->
     <string name="map_title">Werkstattkarte</string>
 
-    <!-- Settings screen -->
-    <string name="settings_title">Einstellungen</string>
+    <!-- Add Event screen -->
+    <string name="add_event_title_add">Wartungsereignis hinzufügen</string>
+    <string name="add_event_title_edit">Ereignis bearbeiten</string>
+    <string name="add_event_delete_cd">Löschen</string>
+    <string name="add_event_type_label">Ereignistyp</string>
+    <string name="add_event_type_oil">Ölwechsel</string>
+    <string name="add_event_type_tires">Reifen</string>
+    <string name="add_event_type_brakes">Bremsen</string>
+    <string name="add_event_type_custom">Benutzerdefiniert</string>
+    <string name="add_event_title_field">Titel *</string>
+    <string name="add_event_interval_field">Intervall (Meilen) *</string>
+    <string name="field_notes">Notizen</string>
+
+    <!-- Add Mechanic screen -->
+    <string name="add_mechanic_title">Werkstatt hinzufügen</string>
+    <string name="add_mechanic_name">Werkstattname *</string>
+    <string name="add_mechanic_address">Adresse</string>
+    <string name="add_mechanic_phone">Telefon</string>
+    <string name="add_mechanic_lat">Breitengrad *</string>
+    <string name="add_mechanic_lng">Längengrad *</string>
+
+    <!-- Add Car screen - camera -->
+    <string name="add_car_take_photo">Foto aufnehmen</string>
+    <string name="add_car_photo_taken">Foto aufgenommen ✓</string>
+    <string name="add_car_photo_preview_cd">Vorschau Autofoto</string>
+
+    <!-- Car Detail extras -->
+    <string name="car_detail_weekly_avg">≈ %1$s km / Woche</string>
+    <string name="car_detail_overdue">ÜBERFÄLLIG</string>
+    <string name="car_detail_mark_done">✓ Als erledigt markieren</string>
 
     <!-- Shared / common -->
     <string name="action_save">Speichern</string>
     <string name="action_saving">Wird gespeichert…</string>
     <string name="action_cancel">Abbrechen</string>
     <string name="action_back_cd">Zurück</string>
+
+    <string name="settings_title">Einstellungen</string>
+    <string name="settings_section_profile">Profil</string>
+    <string name="settings_owner_name_label">Dein Name</string>
+    <string name="settings_owner_name_placeholder">z.B. Alex</string>
+    <string name="settings_owner_name_hint">Wird automatisch gespeichert</string>
+    <string name="settings_section_notifications">Benachrichtigungen</string>
+    <string name="settings_weekly_reminder">Wöchentliche Kilometerstand-Erinnerung</string>
+    <string name="settings_section_intervals">Standard-Wartungsintervalle</string>
+    <string name="settings_oil_miles">Ölwechsel (Meilen)</string>
+    <string name="settings_tire_miles">Reifencheck (Meilen)</string>
+    <string name="settings_brake_miles">Bremscheck (Meilen)</string>
+    <string name="settings_section_appearance">Erscheinungsbild</string>
+    <string name="settings_dark_theme">Dunkles Design</string>
+    <string name="settings_section_language">Sprache</string>
+    <string name="settings_lang_english">English</string>
+    <string name="settings_lang_german">Deutsch</string>
 </resources>

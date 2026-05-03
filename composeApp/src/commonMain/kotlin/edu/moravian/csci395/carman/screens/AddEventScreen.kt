@@ -25,7 +25,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -37,9 +36,26 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import carman.composeapp.generated.resources.Res
+import carman.composeapp.generated.resources.action_back_cd
+import carman.composeapp.generated.resources.action_cancel
+import carman.composeapp.generated.resources.action_save
+import carman.composeapp.generated.resources.action_saving
+import carman.composeapp.generated.resources.add_event_delete_cd
+import carman.composeapp.generated.resources.add_event_interval_field
+import carman.composeapp.generated.resources.add_event_title_add
+import carman.composeapp.generated.resources.add_event_title_edit
+import carman.composeapp.generated.resources.add_event_title_field
+import carman.composeapp.generated.resources.add_event_type_brakes
+import carman.composeapp.generated.resources.add_event_type_custom
+import carman.composeapp.generated.resources.add_event_type_label
+import carman.composeapp.generated.resources.add_event_type_oil
+import carman.composeapp.generated.resources.add_event_type_tires
+import carman.composeapp.generated.resources.field_notes
 import edu.moravian.csci395.carman.data.CarDao
 import edu.moravian.csci395.carman.data.MaintenanceEventDao
 import kotlinx.serialization.Serializable
+import org.jetbrains.compose.resources.stringResource
 
 /** Route for scheduling a new maintenance event on a specific car. */
 @Serializable
@@ -73,25 +89,27 @@ fun AddEventScreen(
     val isEditMode by vm.isEditMode.collectAsState()
 
     val eventTypes = listOf(
-        "OIL_CHANGE" to "Oil Change",
-        "TIRE_CHECK" to "Tires",
-        "BRAKE_CHECK" to "Brakes",
-        "CUSTOM" to "Custom"
+        "OIL_CHANGE" to stringResource(Res.string.add_event_type_oil),
+        "TIRE_CHECK" to stringResource(Res.string.add_event_type_tires),
+        "BRAKE_CHECK" to stringResource(Res.string.add_event_type_brakes),
+        "CUSTOM" to stringResource(Res.string.add_event_type_custom),
     )
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(if (isEditMode) "Edit Event" else "Add Maintenance Event") },
+                title = {
+                    Text(stringResource(if (isEditMode) Res.string.add_event_title_edit else Res.string.add_event_title_add))
+                },
                 navigationIcon = {
                     IconButton(onClick = onCancel) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(Res.string.action_back_cd))
                     }
                 },
                 actions = {
                     if (isEditMode) {
                         IconButton(onClick = { vm.delete(onSaved) }) {
-                            Icon(Icons.Default.Delete, contentDescription = "Delete")
+                            Icon(Icons.Default.Delete, contentDescription = stringResource(Res.string.add_event_delete_cd))
                         }
                     }
                 }
@@ -106,7 +124,7 @@ fun AddEventScreen(
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            Text("Event Type", style = MaterialTheme.typography.titleMedium)
+            Text(stringResource(Res.string.add_event_type_label), style = MaterialTheme.typography.titleMedium)
             Column(Modifier.selectableGroup()) {
                 eventTypes.forEach { (value, label) ->
                     Row(
@@ -120,10 +138,7 @@ fun AddEventScreen(
                             .padding(vertical = 8.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        RadioButton(
-                            selected = (type == value),
-                            onClick = null // handled by row click
-                        )
+                        RadioButton(selected = (type == value), onClick = null)
                         Text(
                             text = label,
                             style = MaterialTheme.typography.bodyLarge,
@@ -136,7 +151,7 @@ fun AddEventScreen(
             OutlinedTextField(
                 value = title,
                 onValueChange = vm::setTitle,
-                label = { Text("Title *") },
+                label = { Text(stringResource(Res.string.add_event_title_field)) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
             )
@@ -144,7 +159,7 @@ fun AddEventScreen(
             OutlinedTextField(
                 value = intervalMiles,
                 onValueChange = vm::setIntervalMiles,
-                label = { Text("Interval (miles) *") },
+                label = { Text(stringResource(Res.string.add_event_interval_field)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
@@ -153,7 +168,7 @@ fun AddEventScreen(
             OutlinedTextField(
                 value = notes,
                 onValueChange = vm::setNotes,
-                label = { Text("Notes") },
+                label = { Text(stringResource(Res.string.field_notes)) },
                 modifier = Modifier.fillMaxWidth(),
                 minLines = 3
             )
@@ -165,7 +180,7 @@ fun AddEventScreen(
                 enabled = vm.canSave() && !isSaving,
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                Text(if (isSaving) "Saving..." else "Save")
+                Text(stringResource(if (isSaving) Res.string.action_saving else Res.string.action_save))
             }
 
             OutlinedButton(
@@ -173,7 +188,7 @@ fun AddEventScreen(
                 enabled = !isSaving,
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                Text("Cancel")
+                Text(stringResource(Res.string.action_cancel))
             }
         }
     }

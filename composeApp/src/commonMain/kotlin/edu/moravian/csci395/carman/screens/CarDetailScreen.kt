@@ -30,9 +30,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.foundation.layout.height
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
 import androidx.lifecycle.viewmodel.compose.viewModel
 import carman.composeapp.generated.resources.Res
 import carman.composeapp.generated.resources.car_color
@@ -45,7 +48,10 @@ import carman.composeapp.generated.resources.car_detail_loading
 import carman.composeapp.generated.resources.car_detail_log_mileage
 import carman.composeapp.generated.resources.car_detail_maintenance
 import carman.composeapp.generated.resources.car_detail_next_due
+import carman.composeapp.generated.resources.car_detail_mark_done
+import carman.composeapp.generated.resources.car_detail_overdue
 import carman.composeapp.generated.resources.car_detail_title_fallback
+import carman.composeapp.generated.resources.car_detail_weekly_avg
 import carman.composeapp.generated.resources.car_mileage_not_set
 import carman.composeapp.generated.resources.car_plate
 import edu.moravian.csci395.carman.data.CarDao
@@ -82,7 +88,7 @@ fun CarDetailScreen(
                 title = {
                     Text(
                         car?.let { "${it.year} ${it.make} ${it.model}" }
-                            ?: stringResource(Res.string.car_detail_title_fallback)
+                            ?: stringResource(Res.string.car_detail_title_fallback),
                     )
                 },
                 navigationIcon = {
@@ -118,17 +124,17 @@ fun CarDetailScreen(
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
-                item { CarSummaryCard(currentCar.licensePlate, currentCar.color) }
+                item("summary") { CarSummaryCard(currentCar.licensePlate, currentCar.color, currentCar.photoPath) }
 
-                items(events, key = { it.id }) { event ->
-                    EventRow(
-                        event = event,
+                item("mileage") {
+                    MileageCard(
                         currentMileage = currentCar.currentMileage,
-                        onMarkDone = { vm.completeEvent(event) },
+                        weeklyAverageMiles = null,
+                        onLogMileage = { onLogMileageClick(carId) },
                     )
                 }
 
-                item {
+                item("header") {
                     Text(
                         text = stringResource(Res.string.car_detail_maintenance),
                         style = MaterialTheme.typography.titleMedium,
@@ -138,7 +144,7 @@ fun CarDetailScreen(
                 }
 
                 if (events.isEmpty()) {
-                    item {
+                    item("empty") {
                         Text(
                             text = stringResource(Res.string.car_detail_events_empty),
                             style = MaterialTheme.typography.bodyMedium,
@@ -159,21 +165,31 @@ fun CarDetailScreen(
 }
 
 @Composable
-private fun CarSummaryCard(licensePlate: String?, color: String?) {
-    if (licensePlate == null && color == null) return
+private fun CarSummaryCard(licensePlate: String?, color: String?, photoPath: String?) {
+    if (licensePlate == null && color == null && photoPath == null) return
     Card(modifier = Modifier.fillMaxWidth()) {
-        Column(Modifier.padding(16.dp)) {
-            licensePlate?.let {
-                Text(
-                    text = stringResource(Res.string.car_plate, it),
-                    style = MaterialTheme.typography.bodyMedium,
+        Column {
+            photoPath?.let {
+                AsyncImage(
+                    model = it,
+                    contentDescription = "Car photo",
+                    modifier = Modifier.fillMaxWidth().height(200.dp),
+                    contentScale = ContentScale.Crop,
                 )
             }
-            color?.let {
-                Text(
-                    text = stringResource(Res.string.car_color, it),
-                    style = MaterialTheme.typography.bodyMedium,
-                )
+            Column(Modifier.padding(16.dp)) {
+                licensePlate?.let {
+                    Text(
+                        text = stringResource(Res.string.car_plate, it),
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
+                }
+                color?.let {
+                    Text(
+                        text = stringResource(Res.string.car_color, it),
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
+                }
             }
         }
     }
@@ -195,7 +211,7 @@ private fun MileageCard(
                 fontWeight = FontWeight.SemiBold,
             )
             weeklyAverageMiles?.let {
-                Text("≈ $it mi / week", style = MaterialTheme.typography.bodyMedium)
+                Text(stringResource(Res.string.car_detail_weekly_avg, it), style = MaterialTheme.typography.bodyMedium)
             }
             OutlinedButton(onClick = onLogMileage) {
                 Text(stringResource(Res.string.car_detail_log_mileage))
@@ -235,7 +251,7 @@ private fun EventRow(
                 )
                 if (isOverdue) {
                     Text(
-                        text = "OVERDUE",
+                        text = stringResource(Res.string.car_detail_overdue),
                         style = MaterialTheme.typography.labelSmall,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.error,
@@ -258,7 +274,7 @@ private fun EventRow(
                 modifier = Modifier.align(Alignment.End),
             ) {
                 Text(
-                    text = "✓ Mark as Done",
+                    text = stringResource(Res.string.car_detail_mark_done),
                     color = if (isOverdue) MaterialTheme.colorScheme.error
                     else MaterialTheme.colorScheme.primary,
                 )

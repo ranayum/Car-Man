@@ -19,6 +19,7 @@ class CarManSettings(private val dataStore: DataStore<Preferences>) {
         val DEFAULT_TIRE_MILES    = intPreferencesKey("default_tire_miles")
         val DEFAULT_BRAKE_MILES   = intPreferencesKey("default_brake_miles")
         val USE_DARK_THEME        = booleanPreferencesKey("use_dark_theme")
+        val LANGUAGE              = stringPreferencesKey("language")
     }
 
     val ownerName: Flow<String> =
@@ -56,6 +57,13 @@ class CarManSettings(private val dataStore: DataStore<Preferences>) {
     }
     suspend fun setUseDarkTheme(dark: Boolean) {
         dataStore.edit { it[USE_DARK_THEME] = dark }
+    }
+
+    val language: Flow<String> =
+        dataStore.data.map { it[LANGUAGE] ?: "en" }
+
+    suspend fun setLanguage(lang: String) {
+        dataStore.edit { it[LANGUAGE] = lang }
     }
 }
 
