@@ -33,6 +33,7 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(libs.androidx.room.sqlite.wrapper)
             implementation(libs.androidx.work.runtime)
+            implementation(libs.ktor.client.okhttp)
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -56,6 +57,12 @@ kotlin {
             implementation(libs.androidx.datastore.preferences.core)
             implementation(libs.coil.compose)
 
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
+        }
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
