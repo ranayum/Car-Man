@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C2DC950D2FAA894F0065079E /* MapLibre in Frameworks */ = {isa = PBXBuildFile; productRef = C2DC950C2FAA894F0065079E /* MapLibre */; };
+		C215A4F52FAA8E2500AA11C4 /* MapLibre in Frameworks */ = {isa = PBXBuildFile; productRef = C215A4F42FAA8E2500AA11C4 /* MapLibre */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,7 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C2DC950D2FAA894F0065079E /* MapLibre in Frameworks */,
+				C215A4F52FAA8E2500AA11C4 /* MapLibre in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,11 +60,19 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		C2BDEAEE2FAA8D64009A3DE9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		E4C3621C003AE532B7D078E1 = {
 			isa = PBXGroup;
 			children = (
 				0900EBAA521E566E6F83E96B /* Configuration */,
 				BD477D165A6C8BC8D2E21F51 /* iosApp */,
+				C2BDEAEE2FAA8D64009A3DE9 /* Frameworks */,
 				2C2EF3EF24EDAA3B058B960C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -90,7 +98,7 @@
 			);
 			name = iosApp;
 			packageProductDependencies = (
-				C2DC950C2FAA894F0065079E /* MapLibre */,
+				C215A4F42FAA8E2500AA11C4 /* MapLibre */,
 			);
 			productName = iosApp;
 			productReference = B66361745FC94B9C4979BA9E /* CarMan.app */;
@@ -121,7 +129,7 @@
 			mainGroup = E4C3621C003AE532B7D078E1;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				C2DC950B2FAA894F0065079E /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */,
+				C215A4F32FAA8E2500AA11C4 /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 2C2EF3EF24EDAA3B058B960C /* Products */;
@@ -379,7 +387,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		C2DC950B2FAA894F0065079E /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */ = {
+		C215A4F32FAA8E2500AA11C4 /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/maplibre/maplibre-gl-native-distribution";
 			requirement = {
@@ -390,9 +398,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		C2DC950C2FAA894F0065079E /* MapLibre */ = {
+		C215A4F42FAA8E2500AA11C4 /* MapLibre */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = C2DC950B2FAA894F0065079E /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */;
+			package = C215A4F32FAA8E2500AA11C4 /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */;
 			productName = MapLibre;
 		};
 /* End XCSwiftPackageProductDependency section */
