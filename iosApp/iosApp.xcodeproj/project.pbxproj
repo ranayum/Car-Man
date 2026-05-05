@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C24F37612FA2596A00EA4A2F /* MapLibre in Frameworks */ = {isa = PBXBuildFile; productRef = C24F37602FA2596A00EA4A2F /* MapLibre */; };
+		C2DC950D2FAA894F0065079E /* MapLibre in Frameworks */ = {isa = PBXBuildFile; productRef = C2DC950C2FAA894F0065079E /* MapLibre */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,7 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C24F37612FA2596A00EA4A2F /* MapLibre in Frameworks */,
+				C2DC950D2FAA894F0065079E /* MapLibre in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,7 +90,7 @@
 			);
 			name = iosApp;
 			packageProductDependencies = (
-				C24F37602FA2596A00EA4A2F /* MapLibre */,
+				C2DC950C2FAA894F0065079E /* MapLibre */,
 			);
 			productName = iosApp;
 			productReference = B66361745FC94B9C4979BA9E /* CarMan.app */;
@@ -121,7 +121,7 @@
 			mainGroup = E4C3621C003AE532B7D078E1;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				C24F375F2FA2596A00EA4A2F /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */,
+				C2DC950B2FAA894F0065079E /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 2C2EF3EF24EDAA3B058B960C /* Products */;
@@ -379,20 +379,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		C24F375F2FA2596A00EA4A2F /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */ = {
+		C2DC950B2FAA894F0065079E /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/maplibre/maplibre-gl-native-distribution";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 6.26.0;
+				kind = exactVersion;
+				version = 6.17.1;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		C24F37602FA2596A00EA4A2F /* MapLibre */ = {
+		C2DC950C2FAA894F0065079E /* MapLibre */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = C24F375F2FA2596A00EA4A2F /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */;
+			package = C2DC950B2FAA894F0065079E /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */;
 			productName = MapLibre;
 		};
 /* End XCSwiftPackageProductDependency section */
