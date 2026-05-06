@@ -51,7 +51,7 @@ import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun App(database: CarManDatabase, settings: CarManSettings) {
+fun App(database: CarManDatabase, settings: CarManSettings, notifier: Notifier? = null) {
     val useDarkTheme by settings.useDarkTheme.collectAsState(initial = false)
     AppTheme(darkTheme = useDarkTheme) {
         val navController = rememberNavController()
@@ -112,7 +112,7 @@ fun App(database: CarManDatabase, settings: CarManSettings) {
                 }
                 composable<MechanicsMap> { MapScreen(database.mechanicDao()) }
                 composable<Settings> {
-                    SettingsScreen(settings = settings)
+                    SettingsScreen(settings = settings, notifier = notifier)
                 }
                 composable<CarDetail> { entry ->
                     val route = entry.toRoute<CarDetail>()

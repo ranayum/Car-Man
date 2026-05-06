@@ -111,4 +111,5 @@
     <string name="settings_section_language">Language</string>
     <string name="settings_lang_english">English</string>
     <string name="settings_lang_german">Deutsch</string>
+    <string name="settings_test_notification">Send Test Notification</string>
 </resources>

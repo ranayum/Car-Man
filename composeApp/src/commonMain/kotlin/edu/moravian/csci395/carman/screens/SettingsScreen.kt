@@ -11,6 +11,7 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -44,9 +45,11 @@ import carman.composeapp.generated.resources.settings_section_intervals
 import carman.composeapp.generated.resources.settings_section_language
 import carman.composeapp.generated.resources.settings_section_notifications
 import carman.composeapp.generated.resources.settings_section_profile
+import carman.composeapp.generated.resources.settings_test_notification
 import carman.composeapp.generated.resources.settings_tire_miles
 import carman.composeapp.generated.resources.settings_title
 import carman.composeapp.generated.resources.settings_weekly_reminder
+import edu.moravian.csci395.carman.Notifier
 import edu.moravian.csci395.carman.data.CarManSettings
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.stringResource
@@ -58,6 +61,7 @@ object Settings
 @Composable
 fun SettingsScreen(
     settings: CarManSettings,
+    notifier: Notifier? = null,
     vm: SettingsVM = viewModel { SettingsVM() },
 ) {
     LaunchedEffect(settings) { vm.setup(settings) }
@@ -101,6 +105,18 @@ fun SettingsScreen(
                 checked = notificationsOn,
                 onCheckedChange = vm::setNotificationsEnabled,
             )
+
+            Button(
+                onClick = {
+                    notifier?.showNotification(
+                        "CarMan – Test Notification",
+                        "This is a test to verify notifications are working!"
+                    )
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(stringResource(Res.string.settings_test_notification))
+            }
 
             HorizontalDivider()
 

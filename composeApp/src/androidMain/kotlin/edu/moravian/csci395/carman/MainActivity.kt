@@ -47,7 +47,11 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
-            App(database = database, settings = settings)
+            App(
+                database = database,
+                settings = settings,
+                notifier = AndroidNotifier(this)
+            )
         }
     }
 
