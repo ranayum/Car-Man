@@ -12,6 +12,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -48,7 +49,6 @@ import edu.moravian.csci395.carman.screens.SettingsScreen
 import edu.moravian.csci395.carman.theme.AppTheme
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
-import androidx.compose.runtime.collectAsState
 
 @Composable
 fun App(database: CarManDatabase, settings: CarManSettings) {
@@ -78,7 +78,10 @@ fun App(database: CarManDatabase, settings: CarManSettings) {
                                     }
                                 },
                                 icon = {
-                                    Icon(tab.icon, contentDescription = stringResource(tab.labelRes))
+                                    Icon(
+                                        tab.icon,
+                                        contentDescription = stringResource(tab.labelRes),
+                                    )
                                 },
                                 label = { Text(stringResource(tab.labelRes)) },
                             )
@@ -96,6 +99,7 @@ fun App(database: CarManDatabase, settings: CarManSettings) {
                     HomeScreen(
                         carDao = database.carDao(),
                         eventDao = database.maintenanceEventDao(),
+                        settings = settings,
                         onEventClick = { id -> navController.navigate(CarDetail(id)) },
                     )
                 }
