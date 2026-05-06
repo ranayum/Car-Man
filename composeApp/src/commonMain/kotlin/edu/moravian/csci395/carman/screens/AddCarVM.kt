@@ -47,21 +47,42 @@ class AddCarVM : ViewModel() {
         if (this.carDao == null) this.carDao = carDao
     }
 
-    fun setPhotoPath(path: String?) { _photoPath.value = path }
-    fun setMake(value: String) { _make.value = value }
-    fun setModel(value: String) { _model.value = value }
-    fun setYear(value: String) { _year.value = value.filter { it.isDigit() }.take(4) }
-    fun setLicensePlate(value: String) { _licensePlate.value = value }
-    fun setColor(value: String) { _color.value = value }
-    fun setCurrentMileage(value: String) { _currentMileage.value = value.filter { it.isDigit() } }
-    fun setWeeklyAverageMiles(value: String) { _weeklyAverageMiles.value = value.filter { it.isDigit() } }
+    fun setPhotoPath(path: String?) {
+        _photoPath.value = path
+    }
+
+    fun setMake(value: String) {
+        _make.value = value
+    }
+
+    fun setModel(value: String) {
+        _model.value = value
+    }
+
+    fun setYear(value: String) {
+        _year.value = value.filter { it.isDigit() }.take(4)
+    }
+
+    fun setLicensePlate(value: String) {
+        _licensePlate.value = value
+    }
+
+    fun setColor(value: String) {
+        _color.value = value
+    }
+
+    fun setCurrentMileage(value: String) {
+        _currentMileage.value = value.filter { it.isDigit() }
+    }
+
+    fun setWeeklyAverageMiles(value: String) {
+        _weeklyAverageMiles.value = value.filter { it.isDigit() }
+    }
 
     /** True when the required fields (make, model, year) are filled with valid values. */
-    fun canSave(): Boolean {
-        return _make.value.isNotBlank() &&
-            _model.value.isNotBlank() &&
-            _year.value.toIntOrNull() != null
-    }
+    fun canSave(): Boolean = _make.value.isNotBlank() &&
+        _model.value.isNotBlank() &&
+        _year.value.toIntOrNull() != null
 
     /**
      * Saves the form as a new car. Calls [onSuccess] on the main thread once the
@@ -72,7 +93,9 @@ class AddCarVM : ViewModel() {
         if (!canSave()) return
         _isSaving.value = true
         viewModelScope.launch {
-            val now = kotlin.time.Clock.System.now().toEpochMilliseconds()
+            val now = kotlin.time.Clock.System
+                .now()
+                .toEpochMilliseconds()
             val mileage = _currentMileage.value.toIntOrNull()
             val car = CarEntity(
                 make = _make.value.trim(),

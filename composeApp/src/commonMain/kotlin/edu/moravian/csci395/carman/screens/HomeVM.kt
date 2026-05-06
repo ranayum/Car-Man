@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 
 data class UpcomingEvent(
     val event: MaintenanceEventEntity,
-    val car: CarEntity?
+    val car: CarEntity?,
 )
 
 class HomeVM : ViewModel() {
@@ -37,7 +37,7 @@ class HomeVM : ViewModel() {
         viewModelScope.launch {
             combine(
                 eventDao.getAllUpcoming(),
-                carDao.getAll()
+                carDao.getAll(),
             ) { events, cars ->
                 events.map { event ->
                     UpcomingEvent(event, cars.find { it.id == event.carId })

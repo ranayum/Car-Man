@@ -9,11 +9,14 @@ import okio.Path.Companion.toPath
 private var dataStoreInstance: DataStore<Preferences>? = null
 
 fun createDataStore(context: Context): DataStore<Preferences> =
-    dataStoreInstance ?: PreferenceDataStoreFactory.createWithPath(
-        produceFile = {
-            context.applicationContext.filesDir
-                .resolve("carman.preferences_pb")
-                .absolutePath
-                .toPath()
-        }
-    ).also { dataStoreInstance = it }
+    dataStoreInstance ?: PreferenceDataStoreFactory
+        .createWithPath(
+            produceFile = {
+                context
+                    .applicationContext
+                    .filesDir
+                    .resolve("carman.preferences_pb")
+                    .absolutePath
+                    .toPath()
+            },
+        ).also { dataStoreInstance = it }

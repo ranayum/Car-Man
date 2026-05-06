@@ -2,7 +2,6 @@ package edu.moravian.csci395.carman.theme
 
 import androidx.compose.ui.graphics.Color
 
-
 val primaryLight = Color(0xFF3A5F7A)
 val onPrimaryLight = Color(0xFFFFFFFF)
 val primaryContainerLight = Color(0xFFCCE5F6)

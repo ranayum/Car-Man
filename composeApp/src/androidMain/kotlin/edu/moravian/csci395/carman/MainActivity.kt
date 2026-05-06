@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             val launcher = registerForActivityResult(
-                ActivityResultContracts.RequestPermission()
+                ActivityResultContracts.RequestPermission(),
             ) { _ -> }
             launcher.launch(Manifest.permission.POST_NOTIFICATIONS)
         }
@@ -36,7 +36,7 @@ class MainActivity : ComponentActivity() {
         var currentLang: String? = null
         lifecycleScope.launch {
             settings.language.collect { lang ->
-                if (currentLang != null && currentLang != lang) {
+                if ((currentLang != null) && (currentLang != lang)) {
                     applyLocale(lang)
                     recreate()
                 } else {
@@ -50,13 +50,13 @@ class MainActivity : ComponentActivity() {
             App(
                 database = database,
                 settings = settings,
-                notifier = AndroidNotifier(this)
+                notifier = AndroidNotifier(this),
             )
         }
     }
 
     private fun applyLocale(lang: String) {
-        val locale = java.util.Locale(lang)
+        val locale = java.util.Locale.forLanguageTag(lang)
         java.util.Locale.setDefault(locale)
         val config = resources.configuration
         config.setLocale(locale)

@@ -30,8 +30,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import coil3.compose.AsyncImage
-import edu.moravian.csci395.carman.rememberCameraLauncher
 import carman.composeapp.generated.resources.Res
 import carman.composeapp.generated.resources.action_back_cd
 import carman.composeapp.generated.resources.action_cancel
@@ -50,7 +48,9 @@ import carman.composeapp.generated.resources.add_car_take_photo
 import carman.composeapp.generated.resources.add_car_title
 import carman.composeapp.generated.resources.add_car_weekly_miles
 import carman.composeapp.generated.resources.add_car_year
+import coil3.compose.AsyncImage
 import edu.moravian.csci395.carman.data.CarDao
+import edu.moravian.csci395.carman.rememberCameraLauncher
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.stringResource
 
@@ -63,7 +63,7 @@ object AddCar
 @Composable
 fun AddCarScreen(
     carDao: CarDao,
-    onSaved: () -> Unit,
+    onSave: () -> Unit,
     onCancel: () -> Unit,
     vm: AddCarVM = viewModel { AddCarVM() },
 ) {
@@ -165,7 +165,15 @@ fun AddCarScreen(
             ) {
                 Icon(Icons.Default.Camera, contentDescription = null)
                 Text(
-                    text = "  " + if (photoPath != null) stringResource(Res.string.add_car_photo_taken) else stringResource(Res.string.add_car_take_photo),
+                    text =
+                        "  " +
+                            if (photoPath !=
+                                null
+                            ) {
+                                stringResource(Res.string.add_car_photo_taken)
+                            } else {
+                                stringResource(Res.string.add_car_take_photo)
+                            },
                     modifier = Modifier.padding(start = 8.dp),
                 )
             }
@@ -180,7 +188,7 @@ fun AddCarScreen(
             }
 
             Button(
-                onClick = { vm.save(onSaved) },
+                onClick = { vm.save(onSave) },
                 enabled = vm.canSave() && !isSaving,
                 modifier = Modifier.fillMaxWidth(),
             ) {

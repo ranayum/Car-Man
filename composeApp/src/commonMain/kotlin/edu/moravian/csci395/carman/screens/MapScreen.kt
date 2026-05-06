@@ -53,7 +53,7 @@ object MechanicsMap
 @Composable
 fun MapScreen(
     mechanicDao: MechanicDao,
-    vm: MapVM = viewModel { MapVM() }
+    vm: MapVM = viewModel { MapVM() },
 ) {
     LaunchedEffect(mechanicDao) {
         vm.setup(mechanicDao)
@@ -67,7 +67,7 @@ fun MapScreen(
         firstPosition = CameraPosition(
             target = Position(longitude = -75.381, latitude = 40.630),
             zoom = 14.0,
-        )
+        ),
     )
 
     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
@@ -78,7 +78,7 @@ fun MapScreen(
             modifier = Modifier.fillMaxSize(),
             baseStyle = BaseStyle.Uri("https://tiles.openfreemap.org/styles/liberty"),
             cameraState = cameraState,
-            styleState = rememberStyleState()
+            styleState = rememberStyleState(),
         ) {
             val savedGeoJson = remember(mechanics) { GeoJsonData.JsonString(mechanics.toGeoJson()) }
             val savedSource = rememberGeoJsonSource(data = savedGeoJson)
@@ -91,10 +91,13 @@ fun MapScreen(
                 strokeWidth = const(2.dp),
                 onClick = { features ->
                     val feature = features.firstOrNull() ?: return@CircleLayer ClickResult.Pass
-                    val index = feature.properties?.get("index")?.jsonPrimitive?.intOrNull ?: return@CircleLayer ClickResult.Pass
+                    val index = feature.properties
+                        ?.get("index")
+                        ?.jsonPrimitive
+                        ?.intOrNull ?: return@CircleLayer ClickResult.Pass
                     vm.selectMechanic(mechanics[index])
                     ClickResult.Consume
-                }
+                },
             )
 
             val discoveredGeoJson = remember(discovered) { GeoJsonData.JsonString(discovered.toGeoJson()) }
@@ -108,10 +111,13 @@ fun MapScreen(
                 strokeWidth = const(1.dp),
                 onClick = { features ->
                     val feature = features.firstOrNull() ?: return@CircleLayer ClickResult.Pass
-                    val index = feature.properties?.get("index")?.jsonPrimitive?.intOrNull ?: return@CircleLayer ClickResult.Pass
+                    val index = feature.properties
+                        ?.get("index")
+                        ?.jsonPrimitive
+                        ?.intOrNull ?: return@CircleLayer ClickResult.Pass
                     vm.selectMechanic(discovered[index])
                     ClickResult.Consume
-                }
+                },
             )
         }
 
@@ -125,12 +131,12 @@ fun MapScreen(
                         north = tl.latitude,
                         south = br.latitude,
                         east = br.longitude,
-                        west = tl.longitude
+                        west = tl.longitude,
                     )
                 },
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(bottom = 32.dp)
+                    .padding(bottom = 32.dp),
             ) {
                 Text("Search this area")
             }
@@ -141,14 +147,14 @@ fun MapScreen(
                         .align(Alignment.BottomCenter)
                         .padding(16.dp)
                         .fillMaxWidth(),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+                    elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Text(
                                 text = mechanic.name,
                                 style = MaterialTheme.typography.titleLarge,
-                                modifier = Modifier.weight(1f)
+                                modifier = Modifier.weight(1f),
                             )
                             IconButton(onClick = { vm.selectMechanic(null) }) {
                                 Icon(Icons.Default.Close, contentDescription = "Close")
@@ -157,12 +163,12 @@ fun MapScreen(
                         mechanic.addressLine?.let { Text(it) }
                         mechanic.phone?.let { Text(it) }
                         Spacer(modifier = Modifier.height(8.dp))
-                        
+
                         // If it's a discovered mechanic (id == 0), show a Save button
                         if (mechanic.id == 0L) {
                             Button(
                                 onClick = { vm.saveMechanic(mechanic, mechanicDao) },
-                                modifier = Modifier.fillMaxWidth()
+                                modifier = Modifier.fillMaxWidth(),
                             ) {
                                 Text("Save to My Mechanics")
                             }

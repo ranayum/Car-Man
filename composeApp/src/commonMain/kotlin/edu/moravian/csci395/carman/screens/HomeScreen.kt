@@ -47,7 +47,7 @@ fun HomeScreen(
     eventDao: MaintenanceEventDao,
     settings: CarManSettings,
     onEventClick: (Long) -> Unit,
-    vm: HomeVM = viewModel { HomeVM() }
+    vm: HomeVM = viewModel { HomeVM() },
 ) {
     LaunchedEffect(carDao, eventDao, settings) {
         vm.setup(carDao, eventDao, settings)
@@ -58,19 +58,19 @@ fun HomeScreen(
 
     val overdueCount = upcomingEvents.count { item ->
         item.car?.currentMileage != null &&
-                item.event.nextDueMileage != null &&
-                item.car.currentMileage >= item.event.nextDueMileage
+            item.event.nextDueMileage != null &&
+            item.car.currentMileage >= item.event.nextDueMileage
     }
 
     Scaffold(
         topBar = {
             TopAppBar(title = { Text(stringResource(Res.string.home_upcoming_title)) })
-        }
+        },
     ) { padding ->
         LazyColumn(
             modifier = Modifier.fillMaxSize().padding(padding),
             contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             item("greeting") {
                 GreetingCard(name = ownerName, overdueCount = overdueCount)
@@ -81,7 +81,7 @@ fun HomeScreen(
                     Column(
                         modifier = Modifier.fillMaxWidth().padding(top = 32.dp),
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                        verticalArrangement = Arrangement.spacedBy(4.dp),
                     ) {
                         Text(stringResource(Res.string.home_empty_message), style = MaterialTheme.typography.bodyLarge)
                         Text(stringResource(Res.string.home_empty_hint), style = MaterialTheme.typography.bodyMedium)
@@ -91,7 +91,7 @@ fun HomeScreen(
                 items(upcomingEvents, key = { it.event.id }) { item ->
                     UpcomingEventRow(
                         upcoming = item,
-                        onClick = { onEventClick(item.event.id) }
+                        onClick = { onEventClick(item.event.id) },
                     )
                 }
             }
@@ -114,15 +114,17 @@ private fun GreetingCard(name: String, overdueCount: Int) {
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
             )
             Text(
-                text = if (overdueCount > 0)
+                text = if (overdueCount > 0) {
                     "$overdueCount item${if (overdueCount > 1) "s" else ""} need${if (overdueCount == 1) "s" else ""} attention"
-                else
-                    "Your cars are all caught up!",
+                } else {
+                    "Your cars are all caught up!"
+                },
                 style = MaterialTheme.typography.bodyMedium,
-                color = if (overdueCount > 0)
+                color = if (overdueCount > 0) {
                     MaterialTheme.colorScheme.error
-                else
-                    MaterialTheme.colorScheme.onPrimaryContainer,
+                } else {
+                    MaterialTheme.colorScheme.onPrimaryContainer
+                },
             )
         }
     }
@@ -131,22 +133,23 @@ private fun GreetingCard(name: String, overdueCount: Int) {
 @Composable
 fun UpcomingEventRow(
     upcoming: UpcomingEvent,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     val event = upcoming.event
     val car = upcoming.car
     val isOverdue = car?.currentMileage != null &&
-            event.nextDueMileage != null &&
-            car.currentMileage >= event.nextDueMileage
+        event.nextDueMileage != null &&
+        car.currentMileage >= event.nextDueMileage
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .clickable { onClick() },
-        colors = if (isOverdue)
+        colors = if (isOverdue) {
             CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer)
-        else
-            CardDefaults.cardColors(),
+        } else {
+            CardDefaults.cardColors()
+        },
     ) {
         Column(Modifier.padding(16.dp)) {
             Row(
@@ -181,7 +184,7 @@ fun UpcomingEventRow(
                     text = stringResource(Res.string.home_due_at, due),
                     style = MaterialTheme.typography.bodySmall,
                     color = if (isOverdue) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(top = 4.dp)
+                    modifier = Modifier.padding(top = 4.dp),
                 )
             }
         }

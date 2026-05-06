@@ -14,18 +14,18 @@ import androidx.core.content.FileProvider
 import java.io.File
 
 @Composable
-actual fun rememberCameraLauncher(onPhotoTaken: (String?) -> Unit): () -> Unit {
+actual fun rememberCameraLauncher(onPhotoTake: (String?) -> Unit): () -> Unit {
     val context = LocalContext.current
     var photoUri by remember { mutableStateOf<Uri?>(null) }
 
     val cameraLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.TakePicture()
+        contract = ActivityResultContracts.TakePicture(),
     ) { success ->
-        onPhotoTaken(if (success) photoUri?.toString() else null)
+        onPhotoTake(if (success) photoUri?.toString() else null)
     }
 
     val permissionLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestPermission()
+        contract = ActivityResultContracts.RequestPermission(),
     ) { granted ->
         if (granted) {
             photoUri?.let { cameraLauncher.launch(it) }

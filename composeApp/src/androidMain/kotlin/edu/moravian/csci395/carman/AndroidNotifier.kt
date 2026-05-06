@@ -6,7 +6,9 @@ import android.content.Context
 import android.os.Build
 import androidx.core.app.NotificationCompat
 
-class AndroidNotifier(private val context: Context) : Notifier {
+class AndroidNotifier(
+    private val context: Context,
+) : Notifier {
     override fun showNotification(title: String, message: String) {
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val channelId = "test_notifications"
@@ -20,7 +22,8 @@ class AndroidNotifier(private val context: Context) : Notifier {
             manager.createNotificationChannel(channel)
         }
 
-        val notification = NotificationCompat.Builder(context, channelId)
+        val notification = NotificationCompat
+            .Builder(context, channelId)
             .setSmallIcon(android.R.drawable.ic_dialog_info)
             .setContentTitle(title)
             .setContentText(message)

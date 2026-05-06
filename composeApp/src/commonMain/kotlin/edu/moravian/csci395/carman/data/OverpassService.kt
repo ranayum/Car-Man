@@ -10,7 +10,7 @@ import kotlinx.serialization.json.Json
 
 @Serializable
 data class OverpassResponse(
-    val elements: List<OverpassElement>
+    val elements: List<OverpassElement>,
 )
 
 @Serializable
@@ -19,22 +19,24 @@ data class OverpassElement(
     val lat: Double? = null,
     val lon: Double? = null,
     val center: OverpassCenter? = null, // for ways/areas
-    val tags: Map<String, String>? = null
+    val tags: Map<String, String>? = null,
 )
 
 @Serializable
 data class OverpassCenter(
     val lat: Double,
-    val lon: Double
+    val lon: Double,
 )
 
 class OverpassService {
     private val client = HttpClient {
         install(ContentNegotiation) {
-            json(Json {
-                ignoreUnknownKeys = true
-                coerceInputValues = true
-            })
+            json(
+                Json {
+                    ignoreUnknownKeys = true
+                    coerceInputValues = true
+                },
+            )
         }
     }
 
@@ -46,7 +48,8 @@ class OverpassService {
      * @param west western longitude
      */
     suspend fun searchMechanics(north: Double, south: Double, east: Double, west: Double): List<MechanicEntity> {
-        val query = """
+        val query =
+            """
             [out:json];
             (
               node["amenity"="car_repair"]($south,$west,$north,$east);
@@ -55,11 +58,12 @@ class OverpassService {
               way["shop"="car_repair"]($south,$west,$north,$east);
             );
             out center;
-        """.trimIndent()
+            """.trimIndent()
 
-        val response: OverpassResponse = client.get("https://overpass-api.de/api/interpreter") {
-            parameter("data", query)
-        }.body()
+        val response: OverpassResponse = client
+            .get("https://overpass-api.de/api/interpreter") {
+                parameter("data", query)
+            }.body()
 
         return response.elements.map { element ->
             val lat = element.lat ?: element.center?.lat ?: 0.0
@@ -77,7 +81,7 @@ class OverpassService {
                 phone = phone,
                 addressLine = address,
                 createdAt = 0, // Not saved yet
-                notes = "Discovered via OpenStreetMap"
+                notes = "Discovered via OpenStreetMap",
             )
         }
     }

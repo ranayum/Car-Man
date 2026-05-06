@@ -39,18 +39,33 @@ class AddMechanicVM : ViewModel() {
         this.mechanicDao = mechanicDao
     }
 
-    fun setName(value: String) { _name.value = value }
-    fun setAddress(value: String) { _address.value = value }
-    fun setLatitude(value: String) { _latitude.value = value }
-    fun setLongitude(value: String) { _longitude.value = value }
-    fun setPhone(value: String) { _phone.value = value }
-    fun setNotes(value: String) { _notes.value = value }
-
-    fun canSave(): Boolean {
-        return _name.value.isNotBlank() && 
-               _latitude.value.toDoubleOrNull() != null && 
-               _longitude.value.toDoubleOrNull() != null
+    fun setName(value: String) {
+        _name.value = value
     }
+
+    fun setAddress(value: String) {
+        _address.value = value
+    }
+
+    fun setLatitude(value: String) {
+        _latitude.value = value
+    }
+
+    fun setLongitude(value: String) {
+        _longitude.value = value
+    }
+
+    fun setPhone(value: String) {
+        _phone.value = value
+    }
+
+    fun setNotes(value: String) {
+        _notes.value = value
+    }
+
+    fun canSave(): Boolean = _name.value.isNotBlank() &&
+        _latitude.value.toDoubleOrNull() != null &&
+        _longitude.value.toDoubleOrNull() != null
 
     fun save(onSuccess: () -> Unit) {
         val dao = mechanicDao ?: return
@@ -65,7 +80,9 @@ class AddMechanicVM : ViewModel() {
                 longitude = _longitude.value.toDouble(),
                 phone = _phone.value.trim().ifBlank { null },
                 notes = _notes.value.trim().ifBlank { null },
-                createdAt = kotlin.time.Clock.System.now().toEpochMilliseconds()
+                createdAt = kotlin.time.Clock.System
+                    .now()
+                    .toEpochMilliseconds(),
             )
             dao.insert(mechanic)
             _isSaving.value = false

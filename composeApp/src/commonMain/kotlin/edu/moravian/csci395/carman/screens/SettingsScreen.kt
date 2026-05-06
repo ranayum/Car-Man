@@ -66,13 +66,13 @@ fun SettingsScreen(
 ) {
     LaunchedEffect(settings) { vm.setup(settings) }
 
-    val ownerName       by vm.ownerName.collectAsState()
+    val ownerName by vm.ownerName.collectAsState()
     val notificationsOn by vm.notificationsEnabled.collectAsState()
-    val oilMiles        by vm.defaultOilMiles.collectAsState()
-    val tireMiles       by vm.defaultTireMiles.collectAsState()
-    val brakeMiles      by vm.defaultBrakeMiles.collectAsState()
-    val darkTheme       by vm.useDarkTheme.collectAsState()
-    val language        by vm.language.collectAsState()
+    val oilMiles by vm.defaultOilMiles.collectAsState()
+    val tireMiles by vm.defaultTireMiles.collectAsState()
+    val brakeMiles by vm.defaultBrakeMiles.collectAsState()
+    val darkTheme by vm.useDarkTheme.collectAsState()
+    val language by vm.language.collectAsState()
 
     Scaffold(
         topBar = { TopAppBar(title = { Text(stringResource(Res.string.settings_title)) }) },
@@ -110,10 +110,10 @@ fun SettingsScreen(
                 onClick = {
                     notifier?.showNotification(
                         "CarMan – Test Notification",
-                        "This is a test to verify notifications are working!"
+                        "This is a test to verify notifications are working!",
                     )
                 },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             ) {
                 Text(stringResource(Res.string.settings_test_notification))
             }
@@ -171,8 +171,7 @@ fun SettingsScreen(
                                 selected = (language == code),
                                 onClick = { vm.setLanguage(code) },
                                 role = Role.RadioButton,
-                            )
-                            .padding(vertical = 8.dp),
+                            ).padding(vertical = 8.dp),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         RadioButton(selected = (language == code), onClick = null)

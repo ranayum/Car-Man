@@ -128,7 +128,7 @@ fun App(database: CarManDatabase, settings: CarManSettings, notifier: Notifier? 
                 composable<AddCar> {
                     AddCarScreen(
                         carDao = database.carDao(),
-                        onSaved = { navController.popBackStack() },
+                        onSave = { navController.popBackStack() },
                         onCancel = { navController.popBackStack() },
                     )
                 }
@@ -138,7 +138,7 @@ fun App(database: CarManDatabase, settings: CarManSettings, notifier: Notifier? 
                         carId = route.carId,
                         carDao = database.carDao(),
                         eventDao = database.maintenanceEventDao(),
-                        onSaved = { navController.popBackStack() },
+                        onSave = { navController.popBackStack() },
                         onCancel = { navController.popBackStack() },
                     )
                 }
@@ -147,7 +147,7 @@ fun App(database: CarManDatabase, settings: CarManSettings, notifier: Notifier? 
                     LogMileageScreen(
                         carId = route.carId,
                         carDao = database.carDao(),
-                        onSaved = { navController.popBackStack() },
+                        onSave = { navController.popBackStack() },
                         onCancel = { navController.popBackStack() },
                     )
                 }

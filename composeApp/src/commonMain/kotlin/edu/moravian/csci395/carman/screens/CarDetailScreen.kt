@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -30,12 +31,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.foundation.layout.height
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
 import androidx.lifecycle.viewmodel.compose.viewModel
 import carman.composeapp.generated.resources.Res
 import carman.composeapp.generated.resources.car_color
@@ -47,13 +46,14 @@ import carman.composeapp.generated.resources.car_detail_interval
 import carman.composeapp.generated.resources.car_detail_loading
 import carman.composeapp.generated.resources.car_detail_log_mileage
 import carman.composeapp.generated.resources.car_detail_maintenance
-import carman.composeapp.generated.resources.car_detail_next_due
 import carman.composeapp.generated.resources.car_detail_mark_done
+import carman.composeapp.generated.resources.car_detail_next_due
 import carman.composeapp.generated.resources.car_detail_overdue
 import carman.composeapp.generated.resources.car_detail_title_fallback
 import carman.composeapp.generated.resources.car_detail_weekly_avg
 import carman.composeapp.generated.resources.car_mileage_not_set
 import carman.composeapp.generated.resources.car_plate
+import coil3.compose.AsyncImage
 import edu.moravian.csci395.carman.data.CarDao
 import edu.moravian.csci395.carman.data.MaintenanceEventDao
 import edu.moravian.csci395.carman.data.MaintenanceEventEntity
@@ -62,7 +62,9 @@ import org.jetbrains.compose.resources.stringResource
 
 /** Route for a single car's detail view. */
 @Serializable
-data class CarDetail(val carId: Long)
+data class CarDetail(
+    val carId: Long,
+)
 
 /** Detail view for one car: identity, mileage, scheduled maintenance events. */
 @OptIn(ExperimentalMaterial3Api::class)
@@ -155,7 +157,7 @@ fun CarDetailScreen(
                         EventRow(
                             event = event,
                             currentMileage = currentCar.currentMileage,
-                            onMarkDone = { vm.completeEvent(event) },
+                            onMark = { vm.completeEvent(event) },
                         )
                     }
                 }
@@ -224,18 +226,19 @@ private fun MileageCard(
 private fun EventRow(
     event: MaintenanceEventEntity,
     currentMileage: Int?,
-    onMarkDone: () -> Unit,
+    onMark: () -> Unit,
 ) {
     val isOverdue = currentMileage != null &&
-            event.nextDueMileage != null &&
-            currentMileage >= event.nextDueMileage
+        event.nextDueMileage != null &&
+        currentMileage >= event.nextDueMileage
 
     Card(
         modifier = Modifier.fillMaxWidth(),
-        colors = if (isOverdue)
+        colors = if (isOverdue) {
             CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer)
-        else
-            CardDefaults.cardColors(),
+        } else {
+            CardDefaults.cardColors()
+        },
     ) {
         Column(Modifier.padding(16.dp)) {
             Row(
@@ -270,13 +273,16 @@ private fun EventRow(
                 )
             }
             androidx.compose.material3.TextButton(
-                onClick = onMarkDone,
+                onClick = onMark,
                 modifier = Modifier.align(Alignment.End),
             ) {
                 Text(
                     text = stringResource(Res.string.car_detail_mark_done),
-                    color = if (isOverdue) MaterialTheme.colorScheme.error
-                    else MaterialTheme.colorScheme.primary,
+                    color = if (isOverdue) {
+                        MaterialTheme.colorScheme.error
+                    } else {
+                        MaterialTheme.colorScheme.primary
+                    },
                 )
             }
         }

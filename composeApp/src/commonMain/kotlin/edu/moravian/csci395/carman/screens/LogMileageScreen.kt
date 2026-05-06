@@ -41,7 +41,9 @@ import org.jetbrains.compose.resources.stringResource
 
 /** Route for updating a car's current mileage. */
 @Serializable
-data class LogMileage(val carId: Long)
+data class LogMileage(
+    val carId: Long,
+)
 
 /** Simple form to update a car's current mileage; pre-shows the existing value. */
 @OptIn(ExperimentalMaterial3Api::class)
@@ -49,7 +51,7 @@ data class LogMileage(val carId: Long)
 fun LogMileageScreen(
     carId: Long,
     carDao: CarDao,
-    onSaved: () -> Unit,
+    onSave: () -> Unit,
     onCancel: () -> Unit,
     vm: LogMileageVM = viewModel { LogMileageVM() },
 ) {
@@ -104,7 +106,7 @@ fun LogMileageScreen(
             )
 
             Button(
-                onClick = { vm.save(onSaved) },
+                onClick = { vm.save(onSave) },
                 enabled = vm.canSave() && !isSaving,
                 modifier = Modifier.fillMaxWidth(),
             ) {

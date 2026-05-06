@@ -59,11 +59,9 @@ import org.jetbrains.compose.resources.stringResource
 
 /** Route for scheduling a new maintenance event on a specific car. */
 @Serializable
-data class AddEvent(val carId: Long)
-
-/** Route for editing an existing maintenance event. */
-@Serializable
-data class EditEvent(val eventId: Long)
+data class AddEvent(
+    val carId: Long,
+)
 
 /** Form for adding/editing a mileage-based maintenance event. */
 @OptIn(ExperimentalMaterial3Api::class)
@@ -72,7 +70,7 @@ fun AddEventScreen(
     carId: Long,
     carDao: CarDao,
     eventDao: MaintenanceEventDao,
-    onSaved: () -> Unit,
+    onSave: () -> Unit,
     onCancel: () -> Unit,
     eventId: Long? = null,
     vm: AddEventVM = viewModel { AddEventVM() },
@@ -108,11 +106,11 @@ fun AddEventScreen(
                 },
                 actions = {
                     if (isEditMode) {
-                        IconButton(onClick = { vm.delete(onSaved) }) {
+                        IconButton(onClick = { vm.delete(onSave) }) {
                             Icon(Icons.Default.Delete, contentDescription = stringResource(Res.string.add_event_delete_cd))
                         }
                     }
-                }
+                },
             )
         },
     ) { padding ->
@@ -133,16 +131,15 @@ fun AddEventScreen(
                             .selectable(
                                 selected = (type == value),
                                 onClick = { vm.setType(value) },
-                                role = Role.RadioButton
-                            )
-                            .padding(vertical = 8.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                                role = Role.RadioButton,
+                            ).padding(vertical = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
                         RadioButton(selected = (type == value), onClick = null)
                         Text(
                             text = label,
                             style = MaterialTheme.typography.bodyLarge,
-                            modifier = Modifier.padding(start = 16.dp)
+                            modifier = Modifier.padding(start = 16.dp),
                         )
                     }
                 }
@@ -170,13 +167,13 @@ fun AddEventScreen(
                 onValueChange = vm::setNotes,
                 label = { Text(stringResource(Res.string.field_notes)) },
                 modifier = Modifier.fillMaxWidth(),
-                minLines = 3
+                minLines = 3,
             )
 
             Spacer(Modifier.weight(1f))
 
             Button(
-                onClick = { vm.save(onSaved) },
+                onClick = { vm.save(onSave) },
                 enabled = vm.canSave() && !isSaving,
                 modifier = Modifier.fillMaxWidth(),
             ) {

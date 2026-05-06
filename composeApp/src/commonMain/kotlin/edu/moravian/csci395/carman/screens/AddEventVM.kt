@@ -41,7 +41,7 @@ class AddEventVM : ViewModel() {
         this.carDao = carDao
         this.eventDao = eventDao
         this.eventId = eventId
-        
+
         if (eventId != null && !_isEditMode.value) {
             _isEditMode.value = true
             viewModelScope.launch {
@@ -59,19 +59,29 @@ class AddEventVM : ViewModel() {
     fun setType(value: String) {
         _type.value = value
         if (!_isEditMode.value) {
-            if (_type.value == "OIL_CHANGE") _title.value = "Oil Change"
-            else if (_type.value == "TIRE_CHECK") _title.value = "Tire Rotation"
-            else if (_type.value == "BRAKE_CHECK") _title.value = "Brake Inspection"
+            if (_type.value == "OIL_CHANGE") {
+                _title.value = "Oil Change"
+            } else if (_type.value == "TIRE_CHECK") {
+                _title.value = "Tire Rotation"
+            } else if (_type.value == "BRAKE_CHECK") {
+                _title.value = "Brake Inspection"
+            }
         }
     }
 
-    fun setTitle(value: String) { _title.value = value }
-    fun setIntervalMiles(value: String) { _intervalMiles.value = value.filter { it.isDigit() } }
-    fun setNotes(value: String) { _notes.value = value }
-
-    fun canSave(): Boolean {
-        return _title.value.isNotBlank() && _intervalMiles.value.toIntOrNull() != null
+    fun setTitle(value: String) {
+        _title.value = value
     }
+
+    fun setIntervalMiles(value: String) {
+        _intervalMiles.value = value.filter { it.isDigit() }
+    }
+
+    fun setNotes(value: String) {
+        _notes.value = value
+    }
+
+    fun canSave(): Boolean = _title.value.isNotBlank() && _intervalMiles.value.toIntOrNull() != null
 
     fun save(onSuccess: () -> Unit) {
         val eDao = eventDao ?: return
@@ -81,7 +91,7 @@ class AddEventVM : ViewModel() {
         _isSaving.value = true
         viewModelScope.launch {
             val interval = _intervalMiles.value.toInt()
-            
+
             if (eventId == null) {
                 // Add new
                 val car = cDao.getByIdOnce(carId)
@@ -94,14 +104,14 @@ class AddEventVM : ViewModel() {
                     title = _title.value.trim(),
                     notes = _notes.value.trim().ifBlank { null },
                     intervalMiles = interval,
-                    nextDueMileage = nextDue
+                    nextDueMileage = nextDue,
                 )
                 eDao.insert(event)
             } else {
                 // Update existing
                 val existingEvent = eDao.getByIdOnce(eventId!!) ?: return@launch
-                
-                // If interval changed, we might need to adjust nextDueMileage? 
+
+                // If interval changed, we might need to adjust nextDueMileage?
                 // For simplicity, let's keep it based on lastCompletedMileage if it exists.
                 val nextDue = existingEvent.lastCompletedMileage?.let { it + interval } ?: existingEvent.nextDueMileage
 
@@ -110,16 +120,16 @@ class AddEventVM : ViewModel() {
                     title = _title.value.trim(),
                     notes = _notes.value.trim().ifBlank { null },
                     intervalMiles = interval,
-                    nextDueMileage = nextDue
+                    nextDueMileage = nextDue,
                 )
                 eDao.update(updatedEvent)
             }
-            
+
             _isSaving.value = false
             onSuccess()
         }
     }
-    
+
     fun delete(onSuccess: () -> Unit) {
         val eDao = eventDao ?: return
         val id = eventId ?: return

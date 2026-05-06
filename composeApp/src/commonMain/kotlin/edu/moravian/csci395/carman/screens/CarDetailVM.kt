@@ -56,7 +56,7 @@ class CarDetailVM : ViewModel() {
         viewModelScope.launch {
             val updatedEvent = event.copy(
                 lastCompletedMileage = currentMileage,
-                nextDueMileage = currentMileage + event.intervalMiles
+                nextDueMileage = currentMileage + event.intervalMiles,
             )
             dao.update(updatedEvent)
         }

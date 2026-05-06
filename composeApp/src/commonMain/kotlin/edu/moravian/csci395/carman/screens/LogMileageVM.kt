@@ -52,7 +52,9 @@ class LogMileageVM : ViewModel() {
             dao.updateMileage(
                 carId = carId,
                 mileage = mileage,
-                timestamp = kotlin.time.Clock.System.now().toEpochMilliseconds(),
+                timestamp = kotlin.time.Clock.System
+                    .now()
+                    .toEpochMilliseconds(),
             )
             _isSaving.value = false
             onSuccess()

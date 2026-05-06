@@ -52,9 +52,9 @@ object AddMechanic
 @Composable
 fun AddMechanicScreen(
     mechanicDao: MechanicDao,
-    onSaved: () -> Unit,
+    onSave: () -> Unit,
     onCancel: () -> Unit,
-    vm: AddMechanicVM = viewModel { AddMechanicVM() }
+    vm: AddMechanicVM = viewModel { AddMechanicVM() },
 ) {
     LaunchedEffect(mechanicDao) {
         vm.setup(mechanicDao)
@@ -76,9 +76,9 @@ fun AddMechanicScreen(
                     IconButton(onClick = onCancel) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(Res.string.action_back_cd))
                     }
-                }
+                },
             )
-        }
+        },
     ) { padding ->
         Column(
             modifier = Modifier
@@ -86,21 +86,21 @@ fun AddMechanicScreen(
                 .padding(padding)
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             OutlinedTextField(
                 value = name,
                 onValueChange = vm::setName,
                 label = { Text(stringResource(Res.string.add_mechanic_name)) },
                 singleLine = true,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
             OutlinedTextField(
                 value = address,
                 onValueChange = vm::setAddress,
                 label = { Text(stringResource(Res.string.add_mechanic_address)) },
                 singleLine = true,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
             OutlinedTextField(
                 value = phone,
@@ -108,7 +108,7 @@ fun AddMechanicScreen(
                 label = { Text(stringResource(Res.string.add_mechanic_phone)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
                 singleLine = true,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
             OutlinedTextField(
                 value = latitude,
@@ -116,7 +116,7 @@ fun AddMechanicScreen(
                 label = { Text(stringResource(Res.string.add_mechanic_lat)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 singleLine = true,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
             OutlinedTextField(
                 value = longitude,
@@ -124,27 +124,27 @@ fun AddMechanicScreen(
                 label = { Text(stringResource(Res.string.add_mechanic_lng)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 singleLine = true,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
             OutlinedTextField(
                 value = notes,
                 onValueChange = vm::setNotes,
                 label = { Text(stringResource(Res.string.field_notes)) },
                 modifier = Modifier.fillMaxWidth(),
-                minLines = 3
+                minLines = 3,
             )
 
             Button(
-                onClick = { vm.save(onSaved) },
+                onClick = { vm.save(onSave) },
                 enabled = vm.canSave() && !isSaving,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             ) {
                 Text(stringResource(if (isSaving) Res.string.action_saving else Res.string.action_save))
             }
             OutlinedButton(
                 onClick = onCancel,
                 enabled = !isSaving,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             ) {
                 Text(stringResource(Res.string.action_cancel))
             }

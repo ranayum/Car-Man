@@ -18,7 +18,6 @@ class MaintenanceWorker(
     context: Context,
     params: WorkerParameters,
 ) : CoroutineWorker(context, params) {
-
     override suspend fun doWork(): Result {
         val settings = getCarManSettings(createDataStore(applicationContext))
         if (!settings.notificationsEnabled.first()) {
@@ -39,7 +38,7 @@ class MaintenanceWorker(
         for (car in cars) {
             val carName = "${car.year} ${car.make}"
             val currentMileage = car.currentMileage ?: 0
-            
+
             // Check for stale mileage (2 weeks)
             val lastUpdated = car.mileageUpdatedAt ?: 0
             if (now - lastUpdated > twoWeeksMillis) {
@@ -63,23 +62,26 @@ class MaintenanceWorker(
                 showNotification(
                     id = 10,
                     title = "Urgent: Maintenance Overdue",
-                    message = overdue.joinToString("\n")
+                    message = overdue.joinToString("\n"),
                 )
             }
+
             dueSoon.isNotEmpty() -> {
                 showNotification(
                     id = 11,
                     title = "Maintenance Due Soon",
-                    message = "Approaching service for: " + dueSoon.joinToString(", ")
+                    message = "Approaching service for: " + dueSoon.joinToString(", "),
                 )
             }
+
             staleMileageCars.isNotEmpty() -> {
                 showNotification(
                     id = 12,
                     title = "Update Odometer",
-                    message = "It's been a while since you logged miles for: " + staleMileageCars.joinToString(", ")
+                    message = "It's been a while since you logged miles for: " + staleMileageCars.joinToString(", "),
                 )
             }
+
             else -> {
                 // Fallback to general weekly reminder if nothing else is pending
                 showMileageReminder()
@@ -103,7 +105,8 @@ class MaintenanceWorker(
             manager.createNotificationChannel(channel)
         }
 
-        val notification = NotificationCompat.Builder(applicationContext, channelId)
+        val notification = NotificationCompat
+            .Builder(applicationContext, channelId)
             .setSmallIcon(android.R.drawable.ic_dialog_alert)
             .setContentTitle(title)
             .setStyle(NotificationCompat.BigTextStyle().bigText(message))
@@ -129,7 +132,8 @@ class MaintenanceWorker(
             manager.createNotificationChannel(channel)
         }
 
-        val notification = NotificationCompat.Builder(applicationContext, channelId)
+        val notification = NotificationCompat
+            .Builder(applicationContext, channelId)
             .setSmallIcon(android.R.drawable.ic_dialog_info)
             .setContentTitle("CarMan – Weekly Reminder")
             .setContentText("Log your mileage so your maintenance schedule stays up to date!")

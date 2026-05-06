@@ -57,16 +57,20 @@ class SettingsVM : ViewModel() {
         }
     }
 
-    fun setOwnerName(name: String) { _ownerName.value = name }
+    fun setOwnerName(name: String) {
+        _ownerName.value = name
+    }
 
     fun setLanguage(lang: String) {
         _language.value = lang
         viewModelScope.launch { settings?.setLanguage(lang) }
     }
+
     fun setNotificationsEnabled(v: Boolean) {
         _notificationsEnabled.value = v
         viewModelScope.launch { settings?.setNotificationsEnabled(v) }
     }
+
     fun setDefaultOilMiles(v: String) {
         if (v.all { it.isDigit() }) {
             _defaultOilMiles.value = v
@@ -75,6 +79,7 @@ class SettingsVM : ViewModel() {
             }
         }
     }
+
     fun setDefaultTireMiles(v: String) {
         if (v.all { it.isDigit() }) {
             _defaultTireMiles.value = v
@@ -83,6 +88,7 @@ class SettingsVM : ViewModel() {
             }
         }
     }
+
     fun setDefaultBrakeMiles(v: String) {
         if (v.all { it.isDigit() }) {
             _defaultBrakeMiles.value = v
@@ -91,10 +97,12 @@ class SettingsVM : ViewModel() {
             }
         }
     }
+
     fun setUseDarkTheme(v: Boolean) {
         _useDarkTheme.value = v
         viewModelScope.launch { settings?.setUseDarkTheme(v) }
     }
+
     fun saveOwnerName() {
         viewModelScope.launch { settings?.setOwnerName(_ownerName.value) }
     }

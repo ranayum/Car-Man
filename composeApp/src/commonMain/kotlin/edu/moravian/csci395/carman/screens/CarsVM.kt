@@ -16,6 +16,7 @@ class CarsVM : ViewModel() {
     private var carDao: CarDao? = null
 
     private val _cars = MutableStateFlow<List<CarEntity>>(emptyList())
+
     /** All cars currently in the database, newest first. */
     val cars: StateFlow<List<CarEntity>> = _cars
 
