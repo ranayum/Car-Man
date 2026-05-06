@@ -2,6 +2,11 @@
 
 Car-Man was built as a Kotlin Multiplatform project demonstrating shared mobile development across Android and iOS. The app includes persistent local storage, network requests, maps, camera support, local notifications, background work, DataStore settings, and runtime translation support.
 
+## Collaborators
+
+- Rana Yum
+- Sean Creveling
+
 ## Overview
 
 Car-Man helps users keep track of their cars in one place. Users can add vehicles, view vehicle details, log mileage, record maintenance events, save mechanic information, and search for nearby automotive-related locations using map functionality.
@@ -333,9 +338,3 @@ Potential future features include:
 - More detailed mechanic profiles
 - Photo gallery for each vehicle
 - Reminder scheduling for inspections, oil changes, and registration renewals
-
-## Collaborators
-
-- Rana Yum
-- Sean Creveling
-
